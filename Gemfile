@@ -1,10 +1,13 @@
 source 'https://rubygems.org/'
+ruby '2.3.1'
 
 gem 'rails'
 gem 'pg'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
+gem 'dotenv'
+gem 'devise'
 group :development, :test do
   gem 'capybara'
   gem 'capybara-webkit', '~> 1.11.1'
@@ -19,6 +22,7 @@ end
 
 group :test do
   gem 'launchy', require: false
+  gem 'database_cleaner'
 end
 
 group :production do
