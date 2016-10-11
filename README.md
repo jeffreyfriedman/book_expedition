@@ -1,5 +1,5 @@
 ![Build Status](https://codeship.com/projects/045ac6c0-717c-0134-b396-66707d799ba6/status?branch=master)
-![Code Climate]("https://codeclimate.com/github/jeffreyfriedman/breakable_toy/badges/gpa.svg")
+[![Code Climate](https://codeclimate.com/github/jeffreyfriedman/breakable_toy/badges/gpa.svg)](https://codeclimate.com/github/jeffreyfriedman/breakable_toy)
 ![Coverage Status](https://coveralls.io/repos/jeffreyfriedman/breakable_to/badge.png)
 
 # README
