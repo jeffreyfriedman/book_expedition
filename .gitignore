@@ -17,6 +17,7 @@
 .byebug_history
 
 .env
+.coveralls.yml
 /coverage
 
 /node_modules
