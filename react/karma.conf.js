@@ -70,7 +70,8 @@ module.exports = function(config) {
       // use karma-spec-reporter to report results to the browser's console
       'spec',
       // use karma-coverage to report test coverage
-      'coverage'
+      'coverage',
+      'coveralls'
     ],
 
     // karma-spec-reporter configuration
@@ -87,7 +88,7 @@ module.exports = function(config) {
       dir: 'coverage',
       subdir: '.',
       // output coverage results as html
-      type: 'html'
+      type: 'lcov'
     }
   })
 }
