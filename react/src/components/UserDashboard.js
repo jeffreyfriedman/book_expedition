@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class UserDashboard extends Component {
+export default class UserDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,11 +10,9 @@ class UserDashboard extends Component {
 
   render() {
     return(
-      <div>
-        Testing User Dashboard
+      <div onClick={this.props.onClick}>
+        {this.props.text}
       </div>
     )
   }
 }
-
-export default UserDashboard;

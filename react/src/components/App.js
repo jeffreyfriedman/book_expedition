@@ -8,16 +8,17 @@ class App extends Component {
       userdata: [],
       intervalId: null
     }
+    this.handleButtonClick = this.handleButtonClick.bind(this)
   }
 
   getDashboard() {
-    debugger;
+    // debugger;
     $.ajax({
       url: '/api/v1/users',
       contentType: 'application/json'
     })
     .done(data => {
-      debugger;
+      // debugger;
       this.setState({ userdata: data.userdata });
     });
   }
@@ -30,6 +31,10 @@ class App extends Component {
     // this.setState({ intervalId: intervalId });
   }
 
+  handleButtonClick() {
+    console.log("Text was clicked")
+  }
+
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
   }
@@ -39,10 +44,14 @@ class App extends Component {
     if (this.state.userdata.length !== 0) {
       greeting = `, ${this.state.userdata.first_name}`;
     }
+    let handleButtonClick = () => this.handleButtonClick();
     return(
       <div>
         <h1>Welcome to Breakable Toy{greeting}!</h1>
-        <UserDashboard />
+        <UserDashboard
+          text="Testing Render of UserDashboard"
+          onClick={handleButtonClick}
+        />
       </div>
     );
   }
