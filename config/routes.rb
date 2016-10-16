@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   root 'static_pages#index'
 
+  resources :users, only: [:show]
+
   namespace :api do
     namespace :v1 do
       resources :users, only: [:index]
