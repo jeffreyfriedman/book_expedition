@@ -10,7 +10,6 @@ gem 'dotenv'
 gem 'devise'
 group :development, :test do
   gem 'capybara'
-  gem 'capybara-webkit', '~> 1.11.1'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'pry-rails'
