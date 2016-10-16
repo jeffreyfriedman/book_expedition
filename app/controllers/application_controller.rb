@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
       :last_name,
       :username,
       :email,
+      :role,
       :password,
       :password_confirmation,
       :remember_me
