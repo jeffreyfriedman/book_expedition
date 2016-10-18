@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Authenticated user" do
+feature "API user interaction" do
   let!(:user) { FactoryGirl.create(:user, email: "emmawatson@gmail.com", password: "sixchar1") }
   let!(:new_first_name) {"emma"}
   let!(:new_last_name) {"watson"}
@@ -25,7 +25,7 @@ feature "Authenticated user" do
   end
 
   scenario "unauthenticated user attempts to access API" do
-    null_content = '{"userdata":null}'
+    null_content = "{\"userdata\":null,\"destinations\":null}"
     visit "/api/v1/users"
 
     expect(page).to have_content(null_content)

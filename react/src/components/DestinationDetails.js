@@ -1,11 +1,23 @@
 import React from 'react';
 
 const DestinationDetails = props => {
+  let selectedElement = props.destinations.filter(destination => {
+    return destination.id === props.selectedDestination;
+  });
+
+  let displayElement;
+  if (selectedElement.length > 0) {
+    displayElement = <div>
+      {selectedElement[0].city}
+      {selectedElement[0].country}
+      <p>{selectedElement[0].short_description}</p>
+      <img src={selectedElement[0].image}/>
+    </div>;
+  }
+
   return(
     <div>
-      <h3>{props.city} {props.country}</h3>
-      <p>{props.blurb}</p>
-      <img src={props.image}/>
+      {displayElement}
     </div>
   )
 }

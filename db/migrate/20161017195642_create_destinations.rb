@@ -5,6 +5,7 @@ class CreateDestinations < ActiveRecord::Migration[5.0]
       t.string :city
       t.string :short_description
       t.string :image
+      t.timestamps
     end
   end
 end

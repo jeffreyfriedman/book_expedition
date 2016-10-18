@@ -40,7 +40,7 @@ class App extends Component {
 
     return(
       <div>
-        <h1>Welcome to Breakable Toy{greeting}!</h1>
+        <h1>Welcome to Book Expedition{greeting}!</h1>
         <UserDashboard
         />
       </div>

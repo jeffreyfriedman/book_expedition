@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import DestinationDetails from './DestinationDetails'
 import NewDestination from './NewDestination'
+import DestinationTitle from './DestinationTitle'
 
 export default class UserDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userdata: [],
+      intervalId: null,
       destinations: [],
+      selectedDestination: "",
       newCountry: "",
       newCity: "",
       blurb: "",
@@ -15,6 +19,7 @@ export default class UserDashboard extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleDestinationClick = this.handleDestinationClick.bind(this);
   }
 
   handleCountryChange(event) {
@@ -39,52 +44,63 @@ export default class UserDashboard extends Component {
         method: 'POST',
         data: destinationPost,
         success: function(data) {
-          let newDestination = {
-            id: data.destination.id,
-            newCountry: this.state.newDestinationCountry,
-            newCity: this.state.newReviewBody,
-          };
-          let newDestinations = [...this.state.reviews, newDestination];
-          this.setState({
-            destinations: newDestinations,
-            newCountry: '',
-            newCity: ''
-          });
+          let newDestinations = [...this.state.destinations, data.destination];
+          this.setState({ destinations: newDestinations });
+          this.setState({ newCountry: "" });
+          this.setState({ newCity: "" });
         }.bind(this)
       });
     }
   }
 
-  getDestinations() {
+  handleDestinationClick(id) {
+    this.setState({ selectedDestination: id })
+  }
+
+  getDashboard() {
     $.ajax({
-      url: '/api/v1/destinations',
+      url: '/api/v1/users',
       contentType: 'application/json'
     })
     .done(data => {
-      // this.setState({ blurb: data.blurb, image: data.image });
-      this.setState({ destinations: data.destinations })
+      this.setState({ userdata: data.userdata, destinations: data.destinations });
     });
   }
 
   componentDidMount() {
-    this.getDestinations();
+    this.getDashboard();
   }
 
   render() {
-    // let onSubmit = () => this.handleFormSubmit();
+    let destinations = this.state.destinations.map(destination => {
+      let onClick = () => this.handleDestinationClick(destination.id)
+      return(
+        <DestinationTitle
+          key={destination.id}
+          id={destination.id}
+          country={destination.country}
+          city={destination.city}
+          onClick={onClick}
+        />
+      )
+    })
+
     return(
       <div>
         <NewDestination
           onClick={this.handleFormSubmit}
+          country={this.state.newCountry}
+          city={this.state.newCity}
           handleCityChange={this.handleCityChange}
           handleCountryChange={this.handleCountryChange}
           handleFormSubmit={this.handleFormSubmit}
         />
+        <br></br>
+        {destinations}
+        <br></br>
         <DestinationDetails
-          city={this.state.newCity}
-          country={this.state.newCountry}
-          blurb={this.state.blurb}
-          image={this.state.image}
+          destinations={this.state.destinations}
+          selectedDestination={this.state.selectedDestination}
         />
       </div>
     )
