@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'pry'
 
 class Api::V1::DestinationsController < ApiController
   def index
