@@ -13,7 +13,8 @@ class Destination < ActiveRecord::Base
 
     html = Nokogiri::HTML(open(url))
     blurb = html.css('.highlightsSection').css('.blurb').css('.content').text
-    image = html.css('.heroPhotoImg').attr('src').value
+    image = ""
+    image ||= html.css('.heroPhotoImg').attr('src').value
     return { blurb: blurb, image: image }
   end
 end

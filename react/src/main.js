@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from "./components/App"
-import UserDashboard from "./components/UserDashboard"
 
 if ($('#div').selector.length > 0) {
   $(function() {

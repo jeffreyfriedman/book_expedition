@@ -7,7 +7,7 @@ const DestinationDetails = props => {
 
   let displayElement;
   if (selectedElement.length > 0) {
-    displayElement = <div>
+    displayElement = <div className="destinationDetails">
       {selectedElement[0].city}
       {selectedElement[0].country}
       <p>{selectedElement[0].short_description}</p>

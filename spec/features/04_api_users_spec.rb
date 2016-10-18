@@ -2,18 +2,9 @@ require "rails_helper"
 
 feature "API user interaction" do
   let!(:user) { FactoryGirl.create(:user, email: "emmawatson@gmail.com", password: "sixchar1") }
-  let!(:new_first_name) {"emma"}
-  let!(:new_last_name) {"watson"}
-  let!(:new_username) {"emmawatsonisthebest"}
-  let!(:new_password) {"sixchar2"}
-  let!(:first_name) {""}
-  let!(:last_name) {""}
-  let!(:username) {""}
-  let!(:email) {""}
-  let!(:password) {""}
 
   scenario "user signs in and signs out" do
-    user_sign_in(user)
+    sign_in(user.email, user.password)
     visit "/api/v1/users"
 
     expect(page).to have_content("userdata")

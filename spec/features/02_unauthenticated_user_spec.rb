@@ -18,7 +18,7 @@ feature "Unauthenticated user" do
 
   context "as an authenticated user successfully signs in" do
     before do
-      user_sign_in(user)
+      sign_in(user.email, user.password)
     end
 
     scenario "user fills in sign-in form correctly and sees flash "\
