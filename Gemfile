@@ -8,6 +8,7 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'dotenv'
 gem 'devise'
+gem 'nokogiri'
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'

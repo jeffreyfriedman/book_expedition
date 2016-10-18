@@ -225,6 +225,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen
+  nokogiri
   pg
   pry-rails
   rails

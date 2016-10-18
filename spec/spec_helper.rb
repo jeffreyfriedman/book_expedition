@@ -16,7 +16,7 @@ end
 
 
 def sign_up(first_name, last_name, username, email, password, confirm_password)
-  visit root_path
+  visit unauthenticated_root_path
   click_link("Sign Up")
   fill_in "First Name", with: first_name
   fill_in "Last Name", with: last_name
@@ -26,14 +26,6 @@ def sign_up(first_name, last_name, username, email, password, confirm_password)
   fill_in "Confirm Password", with: confirm_password
   check "Sign up for newsletter?"
   click_button "Submit"
-end
-
-def user_sign_in(user)
-  visit root_path
-  click_link("Sign In")
-  fill_in "Email", with: user.email
-  fill_in "Password", with: user.password
-  click_button "Log In"
 end
 
 def update_user(first_name, last_name, username, email, current, password)
@@ -49,7 +41,7 @@ def update_user(first_name, last_name, username, email, current, password)
 end
 
 def sign_in(email, password)
-  visit root_path
+  visit unauthenticated_root_path
   click_link("Sign In")
   fill_in "Email", with: email
   fill_in "Password", with: password
@@ -57,6 +49,6 @@ def sign_in(email, password)
 end
 
 def user_sign_out(user)
-  visit root_path
+  visit unauthenticated_root_path
   click_link("Sign Out")
 end

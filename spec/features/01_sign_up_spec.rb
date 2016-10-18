@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "user signs up" do
 
   scenario "specifying valid and required information" do
-    visit root_path
+    visit unauthenticated_root_path
     click_link 'Sign Up'
     fill_in 'First Name', with: 'John'
     fill_in 'Last Name', with: 'Doe'
@@ -18,7 +18,7 @@ feature "user signs up" do
   end
 
   scenario "required information is not supplied" do
-    visit root_path
+    visit unauthenticated_root_path
     click_link 'Sign Up'
     click_button 'Sign Up'
 
@@ -27,7 +27,7 @@ feature "user signs up" do
   end
 
   scenario "password confirmation does not match original password" do
-    visit root_path
+    visit unauthenticated_root_path
     click_link 'Sign Up'
 
     fill_in 'user_password', with: 'password'
