@@ -10,7 +10,7 @@ if ($('#div').selector.length > 0) {
     ReactDOM.render(
       <Router history={hashHistory}>
         <Route path="/" component={App}></Route>
-        <Route path="users/:user" name="dashboard" component={UserDashboard}></Route>
+
       </Router>,
       document.getElementById('app')
     );
