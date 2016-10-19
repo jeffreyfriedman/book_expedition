@@ -1,7 +1,7 @@
 require "rails_helper"
 
 feature "Unauthenticated user" do
-  let!(:user) { FactoryGirl.create(:user, email: "emmawatson@gmail.com", password: "sixchar1") }
+  let!(:user) { FactoryGirl.create(:user) }
   let!(:incorrect_email) {"six"}
   let!(:incorrect_password) {"six"}
   let!(:project_name) {"Breakable Toy"}
@@ -30,8 +30,7 @@ feature "Unauthenticated user" do
   context "as an authenticated user unsuccesfully signs in" do
     scenario "user fills in sign-in form incorrectly and sees flash"\
     " message with error" do
-      email = "emmawatson@gmail.com"
-      sign_in(email,incorrect_password)
+      sign_in(user.email,incorrect_password)
 
       expect(page).to have_content("Invalid Email or password.")
     end
