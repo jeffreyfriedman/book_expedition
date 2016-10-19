@@ -1,6 +1,8 @@
 require 'coveralls'
 Coveralls.wear!('rails')
 
+require 'database_cleaner'
+
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

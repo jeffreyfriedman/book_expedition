@@ -64,7 +64,7 @@ export default class App extends Component {
         method: 'POST',
         data: destinationPost,
         success: function(data) {
-          let newDestinations = [...this.state.destinations, data.destination];
+          let newDestinations = [data.destination, ...this.state.destinations];
           this.setState({ destinations: newDestinations });
           this.setState({ newCountry: "" });
           this.setState({ newCity: "" });

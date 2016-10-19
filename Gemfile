@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'nokogiri'
 gem 'httparty'
+gem 'goodreads'
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'

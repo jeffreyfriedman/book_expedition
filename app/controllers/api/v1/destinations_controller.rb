@@ -2,7 +2,6 @@ require 'open-uri'
 
 class Api::V1::DestinationsController < ApiController
   def index
-
   end
 
   def create

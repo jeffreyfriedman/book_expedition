@@ -1,4 +1,4 @@
-feature "create destinations through API" do
+feature "delete destinations through API" do
   describe Api::V1::DestinationsController, type: :controller do
 
     let!(:user_destination) { FactoryGirl.create(:user_destination) }
