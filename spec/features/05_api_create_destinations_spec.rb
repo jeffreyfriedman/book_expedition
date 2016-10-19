@@ -16,7 +16,7 @@ feature "create destinations through API" do
 
         user_destination = UserDestination.first
         expect(user_destination.user_id).to eq(user.id)
-        expect(UserDestination.first.destination_id).to eq(user.id)
+        expect(user_destination.destination_id).to eq(res_body['destination']['id'])
       end
     end
   end

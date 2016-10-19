@@ -3,5 +3,5 @@ require 'coveralls'
 
 SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 SimpleCov.start do
-   add_filter 'app/channels', 'app/mailers', 'app/jobs'
+   add_filter 'app/channels'
 end
