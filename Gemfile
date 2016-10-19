@@ -6,9 +6,9 @@ gem 'pg'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'dotenv'
 gem 'devise'
 gem 'nokogiri'
+gem 'httparty'
 group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
@@ -18,6 +18,7 @@ group :development, :test do
   gem 'valid_attribute'
   gem 'listen'
   gem 'spring'
+  gem 'dotenv-rails'
 end
 
 group :test do

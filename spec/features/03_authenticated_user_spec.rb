@@ -1,10 +1,10 @@
 require "rails_helper"
 
 feature "Authenticated user" do
-  let!(:user) { FactoryGirl.create(:user, email: "emmawatson@gmail.com", password: "sixchar1") }
-  let!(:new_first_name) {"emma"}
-  let!(:new_last_name) {"watson"}
-  let!(:new_username) {"emmawatsonisthebest"}
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:new_first_name) {"John"}
+  let!(:new_last_name) {"Doe"}
+  let!(:new_username) {"johndoe"}
   let!(:new_password) {"sixchar2"}
   let!(:first_name) {""}
   let!(:last_name) {""}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import DestinationDetails from './DestinationDetails'
 import NewDestination from './NewDestination'
 import DestinationTitle from './DestinationTitle'
+import DeleteDestination from './DeleteDestination'
 
 export default class App extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class App extends Component {
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleDestinationClick = this.handleDestinationClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   handleCountryChange(event) {
@@ -30,6 +32,24 @@ export default class App extends Component {
   handleCityChange(event) {
     let newCity = event.target.value;
     this.setState({ newCity: newCity });
+  }
+
+  handleDeleteClick(id) {
+    let newDestinations = this.state.destinations.filter(destination => {
+      return destination.id !== id;
+    });
+    this.setState({ destinations: newDestinations });
+
+    let destinationToDelete = this.state.destinations.filter(destination => {
+      return destination.id === id;
+    });
+    let destinationDeleteUrl = `/api/v1/destinations/${destinationToDelete[0].id}`;
+
+    $.ajax({
+      url: destinationDeleteUrl,
+      contentType: 'application/json',
+      method: 'DELETE'
+    });
   }
 
   handleFormSubmit(event) {
@@ -69,23 +89,31 @@ export default class App extends Component {
 
   componentDidMount() {
     this.getDashboard();
-    // let intervalId = setInterval(function() {
-    //   this.getDashboard();
-    // }.bind(this), 2000);
-    // this.setState({ intervalId: intervalId });
   }
 
   render() {
     let destinations = this.state.destinations.map(destination => {
-      let onClick = () => this.handleDestinationClick(destination.id)
+      let destination_id = `destination_${destination.id}`;
+      let destination_title_id = `destination_title_${destination.id}`;
+      let destination_delete_id = `delete_${destination.id}`;
+      let onClick = () => this.handleDestinationClick(destination.id);
+      let onDelete = () => this.handleDeleteClick(destination.id);
       return(
-        <DestinationTitle
-          key={destination.id}
-          id={destination.id}
-          country={destination.country}
-          city={destination.city}
-          onClick={onClick}
-        />
+        <div key={destination_id}>
+          <DestinationTitle
+            key={destination_title_id}
+            id={destination.id}
+            country={destination.country}
+            city={destination.city}
+            onClick={onClick}
+          />
+
+          <DeleteDestination
+            key={destination_delete_id}
+            id={destination.id}
+            onClick={onDelete}
+          />
+        </div>
       )
     })
 

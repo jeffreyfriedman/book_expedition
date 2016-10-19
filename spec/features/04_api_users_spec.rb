@@ -1,7 +1,7 @@
 require "rails_helper"
 
 feature "API user interaction" do
-  let!(:user) { FactoryGirl.create(:user, email: "emmawatson@gmail.com", password: "sixchar1") }
+  let!(:user) { FactoryGirl.create(:user) }
 
   scenario "user signs in and signs out" do
     sign_in(user.email, user.password)
