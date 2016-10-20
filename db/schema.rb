@@ -25,13 +25,14 @@ ActiveRecord::Schema.define(version: 20161019200914) do
   end
 
   create_table "books", force: :cascade do |t|
-    t.string   "title",      null: false
-    t.string   "author",     null: false
+    t.string   "title",       null: false
+    t.string   "author",      null: false
+    t.string   "description"
     t.string   "isbn"
     t.string   "url"
     t.string   "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "destinations", force: :cascade do |t|

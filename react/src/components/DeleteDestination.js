@@ -2,7 +2,7 @@ import React from 'react';
 
 const DeleteDestination = props => {
   return (
-    <button className="button" onClick={props.onClick}>Delete</button>
+    <button type="button" className="btn btn-default" onClick={props.onClick}>Delete</button>
   )
 }
 
