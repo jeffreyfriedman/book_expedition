@@ -89,6 +89,8 @@ module.exports = function(config) {
       subdir: '.',
       // output coverage results as html
       type: 'lcov'
-    }
+    },
+
+    singleRun: true
   })
 }
