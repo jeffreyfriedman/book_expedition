@@ -4,21 +4,29 @@ import BookAddButton from './BookAddButton'
 
 const RelatedBooks = props => {
   let books = "";
-  if (props.books !== undefined) {
-    books = props.books.map(book => {
-      let relatedKey = `relatedBook_${book.id}`;
-      let addKey = `add_${book.id}`;
-      let onAddClick = () => props.handleBookAddClick(book);
+  let conditionalBook = "";
+  if (props.selectedDestinationBooks !== undefined) {
+    books = props.selectedDestinationBooks.map(selectedBook => {
+      let relatedKey = `relatedBook_${selectedBook.id}`;
+      let addKey = `add_${selectedBook.id}`;
+      let onAddClick = () => props.handleBookAddClick(selectedBook);
+      let hideBook = props.myBooks.filter(book => {
+        return book.id === selectedBook.id;
+      });
+
+      if (hideBook.length === 0) {
+        conditionalBook =
+          <div key={relatedKey}>
+            <BookIcon book={selectedBook} />
+            <BookAddButton
+              key={addKey}
+              onClick={onAddClick}
+            />
+          </div>
+      }
 
       return(
-        <div key={relatedKey}>
-          <BookIcon book={book}/>
-          <BookAddButton
-            key={addKey}
-            onClick={onAddClick}
-          />
-        </div>
-
+        conditionalBook
       )
     })
   }

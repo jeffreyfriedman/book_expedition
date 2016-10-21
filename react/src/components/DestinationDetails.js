@@ -15,7 +15,8 @@ const DestinationDetails = props => {
       </div>
       <div className="relatedBooks">
         <RelatedBooks
-          books={props.selectedDestinationBooks}
+          myBooks={props.myBooks}
+          selectedDestinationBooks={props.selectedDestinationBooks}
           handleBookAddClick={props.handleBookAddClick}
           handleBookDeleteClick={props.handleBookDeleteClick}
         />

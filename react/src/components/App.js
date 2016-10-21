@@ -192,6 +192,7 @@ export default class App extends Component {
         {destinations}
         <br></br>
         <DestinationDetails
+          myBooks={this.state.books}
           selectedDestination={this.state.selectedDestination}
           selectedDestinationBooks={this.state.selectedDestinationBooks}
           handleBookAddClick={this.handleBookAddClick}
