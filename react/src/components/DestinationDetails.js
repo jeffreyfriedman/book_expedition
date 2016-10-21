@@ -2,22 +2,23 @@ import React from 'react';
 import RelatedBooks from './RelatedBooks'
 
 const DestinationDetails = props => {
-  let selectedElement = props.destinations.filter(destination => {
-    return destination.id === props.selectedDestination;
-  });
 
-  let displayElement;
-  if (selectedElement.length > 0) {
+  let displayElement = "";
+  if (props.selectedDestination !== undefined) {
     displayElement =
     <div>
       <div className="destinationDetails">
-        {selectedElement[0].city}
-        {selectedElement[0].country}
-        <p>{selectedElement[0].short_description}</p>
-        <img src={selectedElement[0].image}/>
-      </div>;
+        {props.selectedDestination.city}
+        {props.selectedDestination.country}
+        <p>{props.selectedDestination.short_description}</p>
+        <img className="img-responsive" src={props.selectedDestination.image}/>
+      </div>
       <div className="relatedBooks">
-        <RelatedBooks />
+        <RelatedBooks
+          books={props.selectedDestinationBooks}
+          handleBookAddClick={props.handleBookAddClick}
+          handleBookDeleteClick={props.handleBookDeleteClick}
+        />
       </div>
     </div>
 

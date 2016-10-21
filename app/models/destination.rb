@@ -15,11 +15,9 @@ class Destination < ActiveRecord::Base
     if !photos.nil?
       index = 0
       while photos["photos"]["photo"][index]['originalsecret'].nil? || photos["photos"]["photo"][index]['originalformat'].nil?
-        binding.pry
         index += 1
       end
       first_photo = photos["photos"]["photo"][0]
-
       owner_info = HTTParty.get("https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=#{api_key}&photo_id=#{first_photo['id']}&format=json&nojsoncallback=1")
       original_secret = first_photo['originalsecret']
       original_format = first_photo['originalformat']
@@ -36,22 +34,30 @@ class Destination < ActiveRecord::Base
   end
 
   def self.retrieve_relevant_books(destination)
-    binding.pry
     relevant_books = destination.books
     if !relevant_books.empty?
+      relevant_books.each { |book| UserBook.create(user: current_user, book: book) }
     else
-      culture_book = HTTParty.get("https://www.googleapis.com/books/v1/volumes?q=#{destination.country}+#{destination.city}+culture")
-      travel_book = HTTParty.get("https://www.googleapis.com/books/v1/volumes?q=#{destination.country}+#{destination.city}+travel")
-      business_book = HTTParty.get("https://www.googleapis.com/books/v1/volumes?q=#{destination.country}+#{destination.city}+business")
-      novel_book = HTTParty.get("https://www.googleapis.com/books/v1/volumes?q=#{destination.country}+#{destination.city}+novel")
-      history_book = HTTParty.get("https://www.googleapis.com/books/v1/volumes?q=#{destination.country}+#{destination.city}+history")
-      binding.pry
-      #title = culture_book["items"][0]["volumeInfo"]["title"]
-      #author = culture_book["items"][0]["volumeInfo"]["author"]
-      #description = culture_book["items"][0]["volumeInfo"]["description"]
-      #isbn = culture_book["items"][0]["volumeInfo"]["industryIdentifiers"][0]["identifier"]
-      #image = culture_book["items"][0]["imageLinks"]["smallThumbnail"]
-      #url = https://www.amazon.com/dp/#{isbn}?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}"
+      keywords = ["culture", "travel", "business", "novel", "history"]
+      keywords.each do |keyword|
+        book = HTTParty.get("https://www.googleapis.com/books/v1/volumes?q=#{destination.country}+#{destination.city}+#{keyword}")
+        unless book["items"].nil?
+          title = book["items"][0]["volumeInfo"]["title"]
+          authors = book["items"][0]["volumeInfo"]["authors"].to_a.join(', ')
+          description = book["items"][0]["volumeInfo"]["description"]
+          if book["items"][0]["volumeInfo"]["industryIdentifiers"][0]['type'] == "ISBN_10"
+            isbn = book["items"][0]["volumeInfo"]["industryIdentifiers"][0]["identifier"]
+          else #ISBN_13
+            isbn = book["items"][0]["volumeInfo"]["industryIdentifiers"][1]["identifier"]
+          end
+          image = book["items"][0]["volumeInfo"]["imageLinks"]["smallThumbnail"]
+          url = "https://www.amazon.com/dp/#{isbn}/?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}"
+          newbook = Book.new(title: title, authors: authors, description: description, category: keyword, isbn: isbn, image: image, url: url)
+          if newbook.save
+            BookDestination.create(book: newbook, destination: destination)
+          end
+        end
+      end
     end
   end
 end

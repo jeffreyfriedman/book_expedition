@@ -23,7 +23,7 @@ class Api::V1::BooksController < ApiController
 
   private
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :url, :image)
+    params.require(:book).permit(:title, :authors, :description, :isbn, :url, :image)
   end
 
   def existing_book

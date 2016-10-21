@@ -4,6 +4,11 @@ class Api::V1::DestinationsController < ApiController
   def index
   end
 
+  def show
+    @destination = Destination.find(params[:id])
+    render json: { books: @destination.books }, status: :ok
+  end
+
   def create
     @destination = existing_destination
     if @destination
@@ -16,9 +21,9 @@ class Api::V1::DestinationsController < ApiController
       if @destination.save
         UserDestination.create(user: current_user, destination: @destination)
         add_details
-        binding.pry
+        @destination.save
         Destination.retrieve_relevant_books(@destination)
-        render json: { destination: @destination, books: @destination.books }, status: :created
+        render json: { destination: @destination, destinationBooks: @destination.books }, status: :created
       else
         render json: { errors: @destination.errors }, status: :unprocessable_entity
       end

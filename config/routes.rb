@@ -13,8 +13,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, only: [:index]
-      resources :destinations, only: [:index, :create, :destroy]
+      resources :destinations, only: [:index, :show, :create, :destroy]
       resources :books, only: [:index, :create, :destroy]
+      resources :userbooks, only: [:create, :destroy]
     end
   end
 end
