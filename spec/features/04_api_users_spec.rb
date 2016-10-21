@@ -7,7 +7,7 @@ feature "API user interaction" do
     sign_in(user.email, user.password)
     visit "/api/v1/users"
 
-    expect(page).to have_content("userdata")
+    expect(page).to have_content("user_info")
     expect(page).to have_content(user.id)
     expect(page).to have_content(user.first_name)
     expect(page).to have_content(user.last_name)
@@ -16,7 +16,7 @@ feature "API user interaction" do
   end
 
   scenario "unauthenticated user attempts to access API" do
-    null_content = "{\"userdata\":null,\"destinations\":null}"
+    null_content = "{\"user_info\":null,\"destinations\":null,\"books\":null}"
     visit "/api/v1/users"
 
     expect(page).to have_content(null_content)

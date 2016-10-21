@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DestinationDetails from './DestinationDetails'
 import NewDestination from './NewDestination'
 import DestinationTitle from './DestinationTitle'
-import DeleteDestination from './DeleteDestination'
+import DeleteDestinationButton from './DeleteDestinationButton'
 import MyBookList from './MyBookList'
 
 export default class App extends Component {
@@ -49,10 +49,15 @@ export default class App extends Component {
     });
     let destinationDeleteUrl = `/api/v1/destinations/${destinationToDelete[0].id}`;
 
+    this.setState({ selectedDestination: "" });
+    this.setState({ selectedDestinationBooks: [] });
+
     $.ajax({
       url: destinationDeleteUrl,
       contentType: 'application/json',
-      method: 'DELETE'
+      method: 'DELETE',
+      success: function(data) {
+      }.bind(this)
     });
   }
 
@@ -161,7 +166,7 @@ export default class App extends Component {
               onClick={onClick}
             />
 
-            <DeleteDestination
+          <DeleteDestinationButton
               key={destinationDeleteId}
               id={destination.id}
               onClick={onDelete}

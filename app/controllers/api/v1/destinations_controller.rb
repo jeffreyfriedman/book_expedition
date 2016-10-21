@@ -13,6 +13,7 @@ class Api::V1::DestinationsController < ApiController
     @destination = existing_destination
     if @destination
       UserDestination.create(user: current_user, destination: @destination)
+      render json: { destination: @destination, destinationBooks: @destination.books }, status: :created
     else
       @destination = Destination.new(destination_params)
       @destination.country = @destination.country.split.map(&:capitalize).join(' ')
