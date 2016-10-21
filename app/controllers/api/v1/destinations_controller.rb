@@ -4,22 +4,27 @@ class Api::V1::DestinationsController < ApiController
   def index
   end
 
+  def show
+    @destination = Destination.find(params[:id])
+    render json: { books: @destination.books }, status: :ok
+  end
+
   def create
     @destination = existing_destination
     if @destination
       UserDestination.create(user: current_user, destination: @destination)
+      render json: { destination: @destination, destinationBooks: @destination.books }, status: :created
     else
       @destination = Destination.new(destination_params)
       @destination.country = @destination.country.split.map(&:capitalize).join(' ')
       @destination.city = @destination.city.to_s.split.map(&:capitalize).join(' ')
 
-      additional_details = @destination.get_details(params)
-      @destination.short_description = additional_details[:blurb]
-      @destination.image = additional_details[:image]
-
       if @destination.save
         UserDestination.create(user: current_user, destination: @destination)
-        render json: { destination: @destination }, status: :created
+        add_details
+        @destination.save
+        Destination.retrieve_relevant_books(@destination)
+        render json: { destination: @destination, destinationBooks: @destination.books }, status: :created
       else
         render json: { errors: @destination.errors }, status: :unprocessable_entity
       end
@@ -34,6 +39,12 @@ class Api::V1::DestinationsController < ApiController
   private
   def destination_params
     params.require(:destination).permit(:country, :city)
+  end
+
+  def add_details
+    additional_details = @destination.get_details(params)
+    @destination.short_description = additional_details[:blurb]
+    @destination.image = additional_details[:image]
   end
 
   def existing_destination

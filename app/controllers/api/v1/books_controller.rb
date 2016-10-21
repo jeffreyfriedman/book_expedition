@@ -1,5 +1,6 @@
 class Api::V1::BooksController < ApiController
   def create
+    @destination = Destination.find_by(id: params[:destination][:id])
     @book = existing_book
     if !@book.empty?
       UserBook.create(user: current_user, book: @book)
@@ -7,7 +8,6 @@ class Api::V1::BooksController < ApiController
       @book = Book.new(book_params)
       if @book.save
         UserBook.create(user: current_user, book: @book)
-        @destination = Destination.find_by(id: params[:destination][:id])
         BookDestination.create(book: @book, destination: @destination)
         render json: { book: @book }, status: :created
       else
@@ -23,7 +23,7 @@ class Api::V1::BooksController < ApiController
 
   private
   def book_params
-    params.require(:book).permit(:title, :author, :isbn, :url, :image)
+    params.require(:book).permit(:title, :authors, :description, :isbn, :url, :image)
   end
 
   def existing_book

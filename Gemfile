@@ -20,6 +20,7 @@ group :development, :test do
   gem 'listen'
   gem 'spring'
   gem 'dotenv-rails'
+  gem 'seed_dump'
 end
 
 group :test do
