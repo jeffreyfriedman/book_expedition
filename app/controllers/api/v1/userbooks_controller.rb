@@ -3,7 +3,7 @@ class Api::V1::UserbooksController < ApiController
     book = Book.find(params[:book_id])
     userbook = existing_userbook
     if userbook.nil?
-      userbook = UserBook.create(user: current_user, book: book)
+      userbook = UserBook.create(user: current_user, book: book, note: nil)
       render json: { book: book }, status: :ok
     else
       render :no_content, status: :unprocessable_entity

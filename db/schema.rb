@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161019200914) do
+ActiveRecord::Schema.define(version: 20161022162237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,18 +48,22 @@ ActiveRecord::Schema.define(version: 20161019200914) do
   create_table "user_books", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.integer  "book_id",    null: false
+    t.text     "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_user_books_on_book_id", using: :btree
+    t.index ["user_id", "book_id"], name: "index_user_books_on_user_id_and_book_id", unique: true, using: :btree
     t.index ["user_id"], name: "index_user_books_on_user_id", using: :btree
   end
 
   create_table "user_destinations", force: :cascade do |t|
     t.integer  "user_id",        null: false
     t.integer  "destination_id", null: false
+    t.text     "note"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["destination_id"], name: "index_user_destinations_on_destination_id", using: :btree
+    t.index ["user_id", "destination_id"], name: "index_user_destinations_on_user_id_and_destination_id", unique: true, using: :btree
     t.index ["user_id"], name: "index_user_destinations_on_user_id", using: :btree
   end
 

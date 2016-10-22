@@ -91,6 +91,7 @@ module.exports = function(config) {
       type: 'lcov'
     },
 
+    // terminate tests after running (for successful Codeship build)
     singleRun: true
   })
 }

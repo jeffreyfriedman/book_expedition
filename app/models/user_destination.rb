@@ -4,4 +4,5 @@ class UserDestination < ActiveRecord::Base
 
   validates :user, presence: true
   validates :destination, presence: true
+  validates :user, uniqueness: { scope: [:destination] }
 end

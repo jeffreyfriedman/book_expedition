@@ -12,7 +12,7 @@ class Api::V1::DestinationsController < ApiController
   def create
     @destination = existing_destination
     if @destination
-      UserDestination.create(user: current_user, destination: @destination)
+      UserDestination.create(user: current_user, destination: @destination, note: nil)
       render json: { destination: @destination, destinationBooks: @destination.books }, status: :created
     else
       @destination = Destination.new(destination_params)
@@ -20,7 +20,7 @@ class Api::V1::DestinationsController < ApiController
       @destination.city = @destination.city.to_s.split.map(&:capitalize).join(' ')
 
       if @destination.save
-        UserDestination.create(user: current_user, destination: @destination)
+        UserDestination.create(user: current_user, destination: @destination, note: nil)
         add_details
         @destination.save
         Destination.retrieve_relevant_books(@destination)
