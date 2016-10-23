@@ -16,7 +16,7 @@ export default class App extends Component {
       userBooks: [],
       selectedDestination: "",
       selectedDestinationBooks: [],
-      selectedDestinationNote: "",
+      editableDestinationNote: false,
       newDestinationNoteBody: "",
       newCountry: "",
       newCity: "",
@@ -33,6 +33,7 @@ export default class App extends Component {
     this.handleDestinationNoteChange = this.handleDestinationNoteChange.bind(this);
     this.handleDestinationNoteSubmit = this.handleDestinationNoteSubmit.bind(this);
     this.handleDestinationNoteDeleteClick = this.handleDestinationNoteDeleteClick.bind(this);
+    this.handleDestinationNoteEditClick = this.handleDestinationNoteEditClick.bind(this);
   }
 
   handleDestinationNoteChange(event) {
@@ -43,6 +44,12 @@ export default class App extends Component {
   handleDestinationNoteSubmit(event) {
     event.preventDefault();
 
+    // temporarily remove the previous version of the note from the notes list
+    let newNotes = this.state.userDestinationNotes.filter(note => {
+      return note.destination_id !== this.state.selectedDestination.id;
+    });
+    this.setState({ userDestinationNotes: newNotes });
+
     let notePost;
     if (this.state.newDestinationNoteBody.length > 0) {
       notePost = JSON.stringify({ note: {note: this.state.newDestinationNoteBody} });
@@ -52,12 +59,23 @@ export default class App extends Component {
         method: 'PATCH',
         data: notePost,
         success: function(data) {
-          let newNotes = [data.note, ...this.state.userNotes];
-          this.setState({ userNotes: newNotes });
+          let newUserDestinationNotes = [{
+            id: data.userDestination.id,
+            user_id: data.userDestination.user_id,
+            destination_id: data.userDestination.destination_id,
+            note: data.userDestination.note
+          }, ...this.state.userDestinationNotes]
+          this.setState({ userDestinationNotes: newUserDestinationNotes });
           this.setState({ newDestinationNoteBody: "" });
+          this.setState({ editableDestinationNote: false });
         }.bind(this)
       });
     }
+  }
+
+  handleDestinationNoteEditClick(obj) {
+    event.preventDefault();
+    this.setState({ editableDestinationNote: true });
   }
 
   handleDestinationNoteDeleteClick(obj) {
@@ -126,7 +144,14 @@ export default class App extends Component {
         data: destinationPost,
         success: function(data) {
           let newDestinations = [data.destination, ...this.state.userDestinations];
+          let newUserDestinationNotes = [{
+            id: data.userDestination.id,
+            user_id: data.userDestination.user_id,
+            destination_id: data.userDestination.destination_id,
+            note: ""
+          }, ...this.state.userDestinationNotes]
           this.setState({ userDestinations: newDestinations });
+          this.setState({ userDestinationNotes: newUserDestinationNotes });
           this.setState({ newCountry: "" });
           this.setState({ newCity: "" });
         }.bind(this)
@@ -137,6 +162,16 @@ export default class App extends Component {
   handleDestinationClick(obj) {
     this.setState({ selectedDestination: obj })
     this.getBooks(obj.id)
+    let destinationNote = this.state.userDestinationNotes.filter(note => {
+      return note.destination_id === obj.id;
+    });
+    let noteBody;
+    if (destinationNote[0] === undefined) {
+      noteBody = "";
+    } else {
+      destinationNote[0].note;
+    }
+    this.setState({ newDestinationNoteBody: destinationNote[0].note });
   }
 
   handleBookAddClick(obj) {
@@ -191,7 +226,12 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(data => {
-      this.setState({ userInfo: data.user_info, userDestinations: data.destinations, userDestinationNotes: data.destination_notes, userBooks: data.books });
+      this.setState({
+        userInfo: data.user_info,
+        userDestinations: data.destinations,
+        userDestinationNotes: data.destination_notes,
+        userBooks: data.books
+      });
     });
   }
 
@@ -236,10 +276,12 @@ export default class App extends Component {
         myBooks={this.state.userBooks}
         selectedDestination={this.state.selectedDestination}
         userDestinationNotes={this.state.userDestinationNotes}
+        editableDestinationNote={this.state.editableDestinationNote}
         newDestinationNoteBody={this.state.newDestinationNoteBody}
         handleDestinationNoteChange={this.handleDestinationNoteChange}
         handleDestinationNoteSubmit={this.handleDestinationNoteSubmit}
         handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
+        handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
         selectedDestinationBooks={this.state.selectedDestinationBooks}
         handleBookAddClick={this.handleBookAddClick}
       />

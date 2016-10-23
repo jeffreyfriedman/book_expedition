@@ -1,6 +1,7 @@
 import React from 'react';
 
 const NewDestinationNote = props => {
+
   return(
     <div>
       Note:

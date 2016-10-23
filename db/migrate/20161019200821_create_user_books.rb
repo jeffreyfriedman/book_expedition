@@ -3,7 +3,7 @@ class CreateUserBooks < ActiveRecord::Migration[5.0]
     create_table :user_books do |t|
       t.belongs_to :user, null: false
       t.belongs_to :book, null: false
-      t.text :note
+      t.text :note, default: ""
       t.timestamps
     end
   end

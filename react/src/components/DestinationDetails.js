@@ -1,7 +1,7 @@
 import React from 'react';
 import RelatedBooks from './RelatedBooks'
-import NewDestinationNote from './NewDestinationNote'
-import EditDestinationNote from './EditDestinationNote'
+import NewDestinationNote from './NewDestinationNote';
+import EditDestinationNoteControl from './EditDestinationNoteControl';
 
 const DestinationDetails = props => {
 
@@ -11,20 +11,23 @@ const DestinationDetails = props => {
 
   let conditionalNoteControl;
   // if valid text in note, show edit controls, otherwise show new note controls
-  if (destinationNote[0].note !== null) {
+  if ((destinationNote[0] !== undefined) && (destinationNote[0].note !== "")) {
+
     conditionalNoteControl =
-      <EditDestinationNote
+      <EditDestinationNoteControl
         destinationNote={destinationNote[0]}
-        newDestinationNoteBody={props.destinationNoteBody}
+        editableDestinationNote={props.editableDestinationNote}
+        newDestinationNoteBody={props.newDestinationNoteBody}
         destination={props.selectedDestination}
         handleDestinationNoteChange={props.handleDestinationNoteChange}
         handleDestinationNoteSubmit={props.handleDestinationNoteSubmit}
         handleDestinationNoteDeleteClick={props.handleDestinationNoteDeleteClick}
+        handleDestinationNoteEditClick={props.handleDestinationNoteEditClick}
       />
   } else {
     conditionalNoteControl =
       <NewDestinationNote
-        newDestinationNoteBody={props.destinationNoteBody}
+        newDestinationNoteBody={props.newDestinationNoteBody}
         destination={props.selectedDestination}
         handleDestinationNoteChange={props.handleDestinationNoteChange}
         handleDestinationNoteSubmit={props.handleDestinationNoteSubmit}
