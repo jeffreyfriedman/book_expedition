@@ -125,9 +125,7 @@ export default class App extends Component {
     $.ajax({
       url: destinationDeleteUrl,
       contentType: 'application/json',
-      method: 'DELETE',
-      success: function(data) {
-      }.bind(this)
+      method: 'DELETE'
     });
   }
 
@@ -165,12 +163,7 @@ export default class App extends Component {
     let destinationNote = this.state.userDestinationNotes.filter(note => {
       return note.destination_id === obj.id;
     });
-    let noteBody;
-    if (destinationNote[0] === undefined) {
-      noteBody = "";
-    } else {
-      destinationNote[0].note;
-    }
+
     this.setState({ newDestinationNoteBody: destinationNote[0].note });
   }
 

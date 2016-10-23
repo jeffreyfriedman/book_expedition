@@ -5,3 +5,8 @@ languages:
   Python: true
 exclude_paths:
 - "Gemfile.lock"
+- "react/webpack.config.js"
+- "react/karma.conf.js"
+- "react/test"
+- "app/assets/stylesheets"
+- "app/assets/javascripts/cable.js"

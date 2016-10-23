@@ -8,7 +8,7 @@ const MyNoteList = props => {
   if (props.userDestinationNotes) {
     // only show notes with valid text
     myDestinationNotes = props.userDestinationNotes.filter(destinationNote => {
-      return destinationNote.note !== null;
+      return destinationNote.note != "";
     }).map(destinationNote => {
       let destinationNoteKey = `destinationNote_${destinationNote.id}`;
       let deleteDestinationNoteKey = `deleteDestinationNote_${destinationNote.id}`;
