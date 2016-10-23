@@ -3,6 +3,7 @@ class CreateUserDestinations < ActiveRecord::Migration[5.0]
     create_table :user_destinations do |t|
       t.belongs_to :user, null: false
       t.belongs_to :destination, null: false
+      t.text :note, default: ""
       t.timestamps
     end
   end

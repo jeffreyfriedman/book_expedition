@@ -4,4 +4,5 @@ class UserBook < ActiveRecord::Base
 
   validates :user, presence: true
   validates :book, presence: true
+  validates :user, uniqueness: { scope: [:book] }
 end

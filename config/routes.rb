@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       resources :destinations, only: [:index, :show, :create, :destroy]
       resources :books, only: [:index, :create, :destroy]
       resources :userbooks, only: [:create, :destroy]
-      resources :notes, only: [:index, :create, :update, :destroy]
+      resources :userdestinations, only: [:update, :destroy]
     end
   end
 end

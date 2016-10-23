@@ -1,5 +1,5 @@
 class Destination < ActiveRecord::Base
-  has_many :user_destinations
+  has_many :user_destinations, dependent: :destroy
   has_many :users, through: :user_destinations
 
   has_many :book_destinations, dependent: :destroy
@@ -11,7 +11,7 @@ class Destination < ActiveRecord::Base
     api_key = ENV['FLICKR_KEY']
     formatted_keywords = "#{keywords[:country]}" + "#{keywords[:city].to_s}"
     photos = HTTParty.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=#{api_key}&text=#{formatted_keywords}%20landmark&sort=relevance&license=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8&safe_search=1&content_type=1&media=photos&extras=original_format&format=json&nojsoncallback=1")
-
+    
     if !photos.nil?
       index = 0
       while photos["photos"]["photo"][index]['originalsecret'].nil? || photos["photos"]["photo"][index]['originalformat'].nil?
@@ -47,11 +47,13 @@ class Destination < ActiveRecord::Base
           description = book["items"][0]["volumeInfo"]["description"]
           if book["items"][0]["volumeInfo"]["industryIdentifiers"][0]['type'] == "ISBN_10"
             isbn = book["items"][0]["volumeInfo"]["industryIdentifiers"][0]["identifier"]
-          else #ISBN_13
-            isbn = book["items"][0]["volumeInfo"]["industryIdentifiers"][1]["identifier"]
+          elsif isbn = !book["items"][0]["volumeInfo"]["industryIdentifiers"][1].nil?
+            isbn = book["items"][0]["volumeInfo"]["industryIdentifiers"][1]["identifier"] #ISBN_13
+          else
+            isbn = "" #if no ISBN
           end
           image = book["items"][0]["volumeInfo"]["imageLinks"]["smallThumbnail"]
-          url = "https://www.amazon.com/dp/#{isbn}/?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}"
+          url = isbn != "" ? "https://www.amazon.com/dp/#{isbn}/?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}" : ""
           newbook = Book.new(title: title, authors: authors, description: description, category: keyword, isbn: isbn, image: image, url: url)
           if newbook.save
             BookDestination.create(book: newbook, destination: destination)

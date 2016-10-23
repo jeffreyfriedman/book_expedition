@@ -4,16 +4,20 @@ import NewDestination from './NewDestination'
 import DestinationTitle from './DestinationTitle'
 import DeleteDestinationButton from './DeleteDestinationButton'
 import MyBookList from './MyBookList'
+import MyNoteList from './MyNoteList'
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userInfo: [],
-      destinations: [],
-      books: [],
+      userDestinations: [],
+      userDestinationNotes: [],
+      userBooks: [],
       selectedDestination: "",
       selectedDestinationBooks: [],
+      editableDestinationNote: false,
+      newDestinationNoteBody: "",
       newCountry: "",
       newCity: "",
       blurb: "",
@@ -23,9 +27,75 @@ export default class App extends Component {
     this.handleCountryChange = this.handleCountryChange.bind(this);
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleDestinationClick = this.handleDestinationClick.bind(this);
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleDestinationDeleteClick = this.handleDestinationDeleteClick.bind(this);
     this.handleBookAddClick = this.handleBookAddClick.bind(this);
     this.handleBookDeleteClick = this.handleBookDeleteClick.bind(this);
+    this.handleDestinationNoteChange = this.handleDestinationNoteChange.bind(this);
+    this.handleDestinationNoteSubmit = this.handleDestinationNoteSubmit.bind(this);
+    this.handleDestinationNoteDeleteClick = this.handleDestinationNoteDeleteClick.bind(this);
+    this.handleDestinationNoteEditClick = this.handleDestinationNoteEditClick.bind(this);
+  }
+
+  handleDestinationNoteChange(event) {
+    let newNote = event.target.value;
+    this.setState({ newDestinationNoteBody: newNote });
+  }
+
+  handleDestinationNoteSubmit(event) {
+    event.preventDefault();
+
+    // temporarily remove the previous version of the note from the notes list
+    let newNotes = this.state.userDestinationNotes.filter(note => {
+      return note.destination_id !== this.state.selectedDestination.id;
+    });
+    this.setState({ userDestinationNotes: newNotes });
+
+    let notePost;
+    if (this.state.newDestinationNoteBody.length > 0) {
+      notePost = JSON.stringify({ note: {note: this.state.newDestinationNoteBody} });
+      $.ajax({
+        url: '/api/v1/userdestinations/' + this.state.selectedDestination.id,
+        contentType: 'application/json',
+        method: 'PATCH',
+        data: notePost,
+        success: function(data) {
+          let newUserDestinationNotes = [{
+            id: data.userDestination.id,
+            user_id: data.userDestination.user_id,
+            destination_id: data.userDestination.destination_id,
+            note: data.userDestination.note
+          }, ...this.state.userDestinationNotes]
+          this.setState({ userDestinationNotes: newUserDestinationNotes });
+          this.setState({ newDestinationNoteBody: "" });
+          this.setState({ editableDestinationNote: false });
+        }.bind(this)
+      });
+    }
+  }
+
+  handleDestinationNoteEditClick(obj) {
+    event.preventDefault();
+    this.setState({ editableDestinationNote: true });
+  }
+
+  handleDestinationNoteDeleteClick(obj) {
+    event.preventDefault();
+
+    let newNotes = this.state.userDestinationNotes.filter(note => {
+      return note.id !== obj.id;
+    });
+    this.setState({ userDestinationNotes: newNotes });
+
+    let noteToDelete = this.state.userDestinationNotes.filter(note => {
+      return note.id === obj.id;
+    });
+    let noteDeleteUrl = `/api/v1/userdestinations/${noteToDelete[0].id}`;
+
+    $.ajax({
+      url: noteDeleteUrl,
+      contentType: 'application/json',
+      method: 'DELETE'
+    });
   }
 
   handleCountryChange(event) {
@@ -38,13 +108,13 @@ export default class App extends Component {
     this.setState({ newCity: newCity });
   }
 
-  handleDeleteClick(id) {
-    let newDestinations = this.state.destinations.filter(destination => {
+  handleDestinationDeleteClick(id) {
+    let newDestinations = this.state.userDestinations.filter(destination => {
       return destination.id !== id;
     });
-    this.setState({ destinations: newDestinations });
+    this.setState({ userDestinations: newDestinations });
 
-    let destinationToDelete = this.state.destinations.filter(destination => {
+    let destinationToDelete = this.state.userDestinations.filter(destination => {
       return destination.id === id;
     });
     let destinationDeleteUrl = `/api/v1/destinations/${destinationToDelete[0].id}`;
@@ -73,8 +143,15 @@ export default class App extends Component {
         method: 'POST',
         data: destinationPost,
         success: function(data) {
-          let newDestinations = [data.destination, ...this.state.destinations];
-          this.setState({ destinations: newDestinations });
+          let newDestinations = [data.destination, ...this.state.userDestinations];
+          let newUserDestinationNotes = [{
+            id: data.userDestination.id,
+            user_id: data.userDestination.user_id,
+            destination_id: data.userDestination.destination_id,
+            note: ""
+          }, ...this.state.userDestinationNotes]
+          this.setState({ userDestinations: newDestinations });
+          this.setState({ userDestinationNotes: newUserDestinationNotes });
           this.setState({ newCountry: "" });
           this.setState({ newCity: "" });
         }.bind(this)
@@ -85,6 +162,16 @@ export default class App extends Component {
   handleDestinationClick(obj) {
     this.setState({ selectedDestination: obj })
     this.getBooks(obj.id)
+    let destinationNote = this.state.userDestinationNotes.filter(note => {
+      return note.destination_id === obj.id;
+    });
+    let noteBody;
+    if (destinationNote[0] === undefined) {
+      noteBody = "";
+    } else {
+      destinationNote[0].note;
+    }
+    this.setState({ newDestinationNoteBody: destinationNote[0].note });
   }
 
   handleBookAddClick(obj) {
@@ -97,8 +184,8 @@ export default class App extends Component {
       method: 'POST',
       data: newUserBook,
       success: function(data) {
-        let newBooks = [data.book, ...this.state.books];
-        this.setState({ books: newBooks });
+        let newBooks = [data.book, ...this.state.userBooks];
+        this.setState({ userBooks: newBooks });
       }.bind(this)
     });
   }
@@ -106,12 +193,12 @@ export default class App extends Component {
   handleBookDeleteClick(obj) {
     event.preventDefault();
 
-    let newBooks = this.state.books.filter(book => {
+    let newBooks = this.state.userBooks.filter(book => {
       return book.id !== obj.id;
     });
-    this.setState({ books: newBooks });
+    this.setState({ userBooks: newBooks });
 
-    let bookToDelete = this.state.books.filter(book => {
+    let bookToDelete = this.state.userBooks.filter(book => {
       return book.id === obj.id;
     });
     let bookDeleteUrl = `/api/v1/userbooks/${bookToDelete[0].id}`;
@@ -139,7 +226,12 @@ export default class App extends Component {
       contentType: 'application/json'
     })
     .done(data => {
-      this.setState({ userInfo: data.user_info, destinations: data.destinations, books: data.books });
+      this.setState({
+        userInfo: data.user_info,
+        userDestinations: data.destinations,
+        userDestinationNotes: data.destination_notes,
+        userBooks: data.books
+      });
     });
   }
 
@@ -149,13 +241,13 @@ export default class App extends Component {
 
   render() {
     let destinations = "";
-    if (this.state.destinations) {
-      destinations = this.state.destinations.map(destination => {
+    if (this.state.userDestinations) {
+      destinations = this.state.userDestinations.map(destination => {
         let destinationKey = `destination_${destination.id}`;
         let destinationTitleId = `destination_title_${destination.id}`;
         let destinationDeleteId = `delete_${destination.id}`;
         let onClick = () => this.handleDestinationClick(destination);
-        let onDelete = () => this.handleDeleteClick(destination.id);
+        let onDelete = () => this.handleDestinationDeleteClick(destination.id);
         return(
           <div key={destinationKey}>
             <DestinationTitle
@@ -166,23 +258,46 @@ export default class App extends Component {
               onClick={onClick}
             />
 
-          <DeleteDestinationButton
-              key={destinationDeleteId}
-              id={destination.id}
-              onClick={onDelete}
-            />
+            <DeleteDestinationButton
+                key={destinationDeleteId}
+                id={destination.id}
+                onClick={onDelete}
+              />
           </div>
         )
       })
     }
 
+    let conditionalDestinationDetails = "";
+    if (this.state.selectedDestination.id !== undefined) {
+
+      conditionalDestinationDetails =
+      <DestinationDetails
+        myBooks={this.state.userBooks}
+        selectedDestination={this.state.selectedDestination}
+        userDestinationNotes={this.state.userDestinationNotes}
+        editableDestinationNote={this.state.editableDestinationNote}
+        newDestinationNoteBody={this.state.newDestinationNoteBody}
+        handleDestinationNoteChange={this.handleDestinationNoteChange}
+        handleDestinationNoteSubmit={this.handleDestinationNoteSubmit}
+        handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
+        handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
+        selectedDestinationBooks={this.state.selectedDestinationBooks}
+        handleBookAddClick={this.handleBookAddClick}
+      />
+    }
 
     return(
       <div>
         <h1>Book Expedition</h1>
         <MyBookList
-          books={this.state.books}
+          books={this.state.userBooks}
           handleBookDeleteClick={this.handleBookDeleteClick}
+        />
+        <MyNoteList
+          bookNotes={this.state.userBooks.notes}
+          userDestinationNotes={this.state.userDestinationNotes}
+          handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
         />
         <h3>Enter New Destination:</h3>
         <NewDestination
@@ -196,12 +311,7 @@ export default class App extends Component {
       <h3>My Destinations:</h3>
         {destinations}
         <br></br>
-        <DestinationDetails
-          myBooks={this.state.books}
-          selectedDestination={this.state.selectedDestination}
-          selectedDestinationBooks={this.state.selectedDestinationBooks}
-          handleBookAddClick={this.handleBookAddClick}
-        />
+        {conditionalDestinationDetails}
       </div>
     )
   }

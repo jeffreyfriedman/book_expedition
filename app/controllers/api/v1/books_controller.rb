@@ -3,12 +3,12 @@ class Api::V1::BooksController < ApiController
     @destination = Destination.find_by(id: params[:destination][:id])
     @book = existing_book
     if !@book.empty?
-      UserBook.create(user: current_user, book: @book)
+      UserBook.create(user: current_user, book: @book, note: nil)
     else
       @book = Book.new(book_params)
       if @book.save
-        UserBook.create(user: current_user, book: @book)
-        BookDestination.create(book: @book, destination: @destination)
+        UserBook.create(user: current_user, book: @book, note: nil)
+        BookDestination.create(book: @book, destination: @destination, note: nil)
         render json: { book: @book }, status: :created
       else
         render json: { errors: @book.errors }, status: :unprocessable_entity
