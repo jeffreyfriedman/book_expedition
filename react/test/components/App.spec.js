@@ -27,11 +27,12 @@ describe('App', () => {
       expect(wrapper.state()).toEqual({
         userInfo: [],
         userDestinations: [],
+        userDestinationNotes: [],
         userBooks: [],
-        userNotes: [],
         selectedDestination: "",
         selectedDestinationBooks: [],
-        noteBody: "",
+        editableDestinationNote: false,
+        newDestinationNoteBody: "",
         newCountry: "",
         newCity: "",
         blurb: "",
@@ -57,6 +58,9 @@ describe('App', () => {
     });
 
     it('should render a DestinationDetails Component', () => {
+      let newDestination = {"id":1,"country":"Japan","city":"Tokyo","short_description":"\nTradition collides with pop culture in Tokyo, where you can reverently wander ancient temples before rocking out at a karaoke bar. Wake up before the sun to catch the lively fish auction at the Tsukiji Market, then refresh with a walk beneath the cherry blossom trees that line the Sumida River. Spend some time in the beautiful East Gardens of the Imperial Palace, then brush up on your Japanese history at the Edo-Tokyo Museum. Don’t forget to eat as much sushi, udon noodles, and wagashi (Japanese sweets) as your belly can handle.\n","image":"https://media-cdn.tripadvisor.com/media/photo-s/01/2f/bc/7a/gates-to-imperial-palace.jpg","created_at":"2016-10-18T00:12:03.899Z","updated_at":"2016-10-18T00:12:03.899Z"};
+      wrapper.setState({ selectedDestination: newDestination });
+      wrapper.setState({ userDestinations: [newDestination] });
       expect(wrapper.find(DestinationDetails)).toBePresent();
     });
 
@@ -77,12 +81,14 @@ describe('App', () => {
     describe('handleDestinationClick', () => {
       it('should be invoked when the function assigned to the onClick propety of the DestinationTitle props is executed', () => {
         wrapper.setState({ userDestinations: [{"id":1,"country":"Japan","city":"Tokyo","short_description":"\nTradition collides with pop culture in Tokyo, where you can reverently wander ancient temples before rocking out at a karaoke bar. Wake up before the sun to catch the lively fish auction at the Tsukiji Market, then refresh with a walk beneath the cherry blossom trees that line the Sumida River. Spend some time in the beautiful East Gardens of the Imperial Palace, then brush up on your Japanese history at the Edo-Tokyo Museum. Don’t forget to eat as much sushi, udon noodles, and wagashi (Japanese sweets) as your belly can handle.\n","image":"https://media-cdn.tripadvisor.com/media/photo-s/01/2f/bc/7a/gates-to-imperial-palace.jpg","created_at":"2016-10-18T00:12:03.899Z","updated_at":"2016-10-18T00:12:03.899Z"}] });
+        wrapper.setState({ userDestinationNotes: [{"id":1,"user_id":1,"destination_id":1,"note": "test note"}] });
         wrapper.find(DestinationTitle).props().onClick();
         expect(App.prototype.handleDestinationClick).toHaveBeenCalled();
       });
 
       it('should change the selectedDestination property in the state to the object of the clicked destination', () => {
         wrapper.setState({ userDestinations: [{"id":1,"country":"Japan","city":"Tokyo","short_description":"\nTradition collides with pop culture in Tokyo, where you can reverently wander ancient temples before rocking out at a karaoke bar. Wake up before the sun to catch the lively fish auction at the Tsukiji Market, then refresh with a walk beneath the cherry blossom trees that line the Sumida River. Spend some time in the beautiful East Gardens of the Imperial Palace, then brush up on your Japanese history at the Edo-Tokyo Museum. Don’t forget to eat as much sushi, udon noodles, and wagashi (Japanese sweets) as your belly can handle.\n","image":"https://media-cdn.tripadvisor.com/media/photo-s/01/2f/bc/7a/gates-to-imperial-palace.jpg","created_at":"2016-10-18T00:12:03.899Z","updated_at":"2016-10-18T00:12:03.899Z"}] });
+        wrapper.setState({ userDestinationNotes: [{"id":1,"user_id":1,"destination_id":1,"note": "test note"}] });
         wrapper.find(DestinationTitle).props().onClick();
         let selDestId = wrapper.state().userDestinations[0];
         expect(wrapper.state().selectedDestination).toEqual(selDestId);
@@ -90,6 +96,7 @@ describe('App', () => {
 
       it('should change the selectedDestination property in the state to the object of the clicked destination', () => {
         wrapper.setState({ userDestinations: [{"id":1,"country":"Japan","city":"Tokyo","short_description":"\nTradition collides with pop culture in Tokyo, where you can reverently wander ancient temples before rocking out at a karaoke bar. Wake up before the sun to catch the lively fish auction at the Tsukiji Market, then refresh with a walk beneath the cherry blossom trees that line the Sumida River. Spend some time in the beautiful East Gardens of the Imperial Palace, then brush up on your Japanese history at the Edo-Tokyo Museum. Don’t forget to eat as much sushi, udon noodles, and wagashi (Japanese sweets) as your belly can handle.\n","image":"https://media-cdn.tripadvisor.com/media/photo-s/01/2f/bc/7a/gates-to-imperial-palace.jpg","created_at":"2016-10-18T00:12:03.899Z","updated_at":"2016-10-18T00:12:03.899Z"}] });
+        wrapper.setState({ userDestinationNotes: [{"id":1,"user_id":1,"destination_id":1,"note": "test note"}] });
         wrapper.find(DestinationTitle).props().onClick();
         let selDestId = wrapper.state().userDestinations[0];
         expect(wrapper.state().selectedDestination).toEqual(selDestId);
@@ -109,6 +116,7 @@ describe('App', () => {
 
       it('should render a div tag with the text property value "Tokyo Japan"', () => {
         wrapper.setState({ userDestinations: [{"id":1,"country":"Japan","city":"Tokyo","short_description":"\nTradition collides with pop culture in Tokyo, where you can reverently wander ancient temples before rocking out at a karaoke bar. Wake up before the sun to catch the lively fish auction at the Tsukiji Market, then refresh with a walk beneath the cherry blossom trees that line the Sumida River. Spend some time in the beautiful East Gardens of the Imperial Palace, then brush up on your Japanese history at the Edo-Tokyo Museum. Don’t forget to eat as much sushi, udon noodles, and wagashi (Japanese sweets) as your belly can handle.\n","image":"https://media-cdn.tripadvisor.com/media/photo-s/01/2f/bc/7a/gates-to-imperial-palace.jpg","created_at":"2016-10-18T00:12:03.899Z","updated_at":"2016-10-18T00:12:03.899Z"}] });
+        wrapper.setState({ userDestinationNotes: [{"id":1,"user_id":1,"destination_id":1,"note": "test note"}] });
         wrapper.find(DestinationTitle).props().onClick();
         expect(wrapper.find('.destinationDetails').text()).toContain('Tokyo');
         expect(wrapper.find('.destinationDetails').text()).toContain('Japan');
