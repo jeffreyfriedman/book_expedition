@@ -13,7 +13,7 @@ const NewDestination = props => {
         value={props.city}
         onChange={props.handleCityChange}
       />
-      <button onClick={props.handleFormSubmit}>Submit</button>
+    <button className="btn" onClick={props.handleFormSubmit}>Submit</button>
     </div>
 
   )

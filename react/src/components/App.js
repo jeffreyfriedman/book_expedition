@@ -34,6 +34,7 @@ export default class App extends Component {
     this.handleDestinationNoteSubmit = this.handleDestinationNoteSubmit.bind(this);
     this.handleDestinationNoteDeleteClick = this.handleDestinationNoteDeleteClick.bind(this);
     this.handleDestinationNoteEditClick = this.handleDestinationNoteEditClick.bind(this);
+    this.handleReturnToDestinationsClick = this.handleReturnToDestinationsClick.bind(this);
   }
 
   handleDestinationNoteChange(event) {
@@ -53,6 +54,12 @@ export default class App extends Component {
     let notePost;
     if (this.state.newDestinationNoteBody.length > 0) {
       notePost = JSON.stringify({ note: {note: this.state.newDestinationNoteBody} });
+      let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+      });
+
       $.ajax({
         url: '/api/v1/userdestinations/' + this.state.selectedDestination.id,
         contentType: 'application/json',
@@ -74,12 +81,12 @@ export default class App extends Component {
   }
 
   handleDestinationNoteEditClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
     this.setState({ editableDestinationNote: true });
   }
 
   handleDestinationNoteDeleteClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     let newNotes = this.state.userDestinationNotes.filter(note => {
       return note.id !== obj.id;
@@ -90,6 +97,12 @@ export default class App extends Component {
       return note.id === obj.id;
     });
     let noteDeleteUrl = `/api/v1/userdestinations/${noteToDelete[0].id}`;
+
+    let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+    });
 
     $.ajax({
       url: noteDeleteUrl,
@@ -121,11 +134,17 @@ export default class App extends Component {
 
     this.setState({ selectedDestination: "" });
     this.setState({ selectedDestinationBooks: [] });
+    // Retrieve the current CSRF-TOKEN
+    let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+    });
 
     $.ajax({
       url: destinationDeleteUrl,
       contentType: 'application/json',
-      method: 'DELETE'
+      method: 'DELETE',
     });
   }
 
@@ -135,6 +154,12 @@ export default class App extends Component {
 
     if (this.state.newCountry.length > 0) {
       destinationPost = JSON.stringify({ country: this.state.newCountry, city: this.state.newCity });
+      let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+        jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+      });
+
       $.ajax({
         url: '/api/v1/destinations',
         contentType: 'application/json',
@@ -157,20 +182,39 @@ export default class App extends Component {
     }
   }
 
-  handleDestinationClick(obj) {
-    this.setState({ selectedDestination: obj })
-    this.getBooks(obj.id)
-    let destinationNote = this.state.userDestinationNotes.filter(note => {
-      return note.destination_id === obj.id;
-    });
+  handleReturnToDestinationsClick() {
+    this.setState({ selectedDestination: "" });
+    this.setState({ selectedDestinationBooks: [] });
+  }
 
-    this.setState({ newDestinationNoteBody: destinationNote[0].note });
+  handleDestinationClick(obj) {
+    // event.preventDefault();
+
+    if (this.state.selectedDestination !== "") {
+      this.setState({ selectedDestination: "" })
+      this.setState({ newDestinationNoteBody: "" });
+    } else {
+      this.setState({ selectedDestination: obj })
+      this.getBooks(obj.id)
+      let destinationNote = this.state.userDestinationNotes.filter(note => {
+        return note.destination_id === obj.id;
+      });
+
+      this.setState({ newDestinationNoteBody: destinationNote[0].note });
+    }
+
   }
 
   handleBookAddClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     let newUserBook = JSON.stringify({ book_id: obj.id });
+    let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+    });
+
     $.ajax({
       url: '/api/v1/userbooks',
       contentType: 'application/json',
@@ -184,7 +228,7 @@ export default class App extends Component {
   }
 
   handleBookDeleteClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     let newBooks = this.state.userBooks.filter(book => {
       return book.id !== obj.id;
@@ -195,6 +239,12 @@ export default class App extends Component {
       return book.id === obj.id;
     });
     let bookDeleteUrl = `/api/v1/userbooks/${bookToDelete[0].id}`;
+
+    let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+    });
 
     $.ajax({
       url: bookDeleteUrl,
@@ -248,14 +298,11 @@ export default class App extends Component {
               id={destination.id}
               country={destination.country}
               city={destination.city}
+              image={destination.image}
               onClick={onClick}
+              deleteKey={destinationDeleteId}
+              deleteClick={onDelete}
             />
-
-            <DeleteDestinationButton
-                key={destinationDeleteId}
-                id={destination.id}
-                onClick={onDelete}
-              />
           </div>
         )
       })
@@ -277,34 +324,49 @@ export default class App extends Component {
         handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
         selectedDestinationBooks={this.state.selectedDestinationBooks}
         handleBookAddClick={this.handleBookAddClick}
+        returnClick={this.handleReturnToDestinationsClick}
       />
+    }
+
+    let conditionalClassName;
+    if (this.state.selectedDestination !== "") {
+      conditionalClassName = "hide"
+    } else {
+      conditionalClassName = ""
     }
 
     return(
       <div>
         <h1>Book Expedition</h1>
-        <MyBookList
-          books={this.state.userBooks}
-          handleBookDeleteClick={this.handleBookDeleteClick}
-        />
-        <MyNoteList
-          bookNotes={this.state.userBooks.notes}
-          userDestinationNotes={this.state.userDestinationNotes}
-          handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
-        />
-        <h3>Enter New Destination:</h3>
-        <NewDestination
-          onClick={this.handleFormSubmit}
-          country={this.state.newCountry}
-          city={this.state.newCity}
-          handleCityChange={this.handleCityChange}
-          handleCountryChange={this.handleCountryChange}
-          handleFormSubmit={this.handleFormSubmit}
-        />
-      <h3>My Destinations:</h3>
-        {destinations}
-        <br></br>
-        {conditionalDestinationDetails}
+          <div className={conditionalClassName}>
+          <MyBookList
+            books={this.state.userBooks}
+            handleBookDeleteClick={this.handleBookDeleteClick}
+          />
+          <MyNoteList
+            bookNotes={this.state.userBooks.notes}
+            userDestinationNotes={this.state.userDestinationNotes}
+            handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
+          />
+          <h3>Enter New Destination:</h3>
+          <NewDestination
+            onClick={this.handleFormSubmit}
+            country={this.state.newCountry}
+            city={this.state.newCity}
+            handleCityChange={this.handleCityChange}
+            handleCountryChange={this.handleCountryChange}
+            handleFormSubmit={this.handleFormSubmit}
+          />
+          <div>
+            <h3 className>My Destinations:</h3>
+              <div className="row">
+                {destinations}
+              </div>
+          </div>
+        </div>
+        <div>
+          {conditionalDestinationDetails}
+        </div>
       </div>
     )
   }

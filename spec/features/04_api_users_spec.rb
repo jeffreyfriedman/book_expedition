@@ -16,7 +16,7 @@ feature "API user interaction" do
   end
 
   scenario "unauthenticated user attempts to access API" do
-    null_content = "{\"user_info\":null,\"destinations\":null,\"books\":null}"
+    null_content = "{\"user_info\":null,\"destinations\":null,\"destination_notes\":null,\"books\":null}"
     visit "/api/v1/users"
 
     expect(page).to have_content(null_content)

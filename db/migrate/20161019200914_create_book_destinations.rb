@@ -3,6 +3,7 @@ class CreateBookDestinations < ActiveRecord::Migration[5.0]
     create_table :book_destinations do |t|
       t.belongs_to :book, null: false
       t.belongs_to :destination, null: false
+      t.text :note, default: ""
       t.timestamps
     end
   end

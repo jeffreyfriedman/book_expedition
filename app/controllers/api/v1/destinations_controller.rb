@@ -1,6 +1,7 @@
 require 'open-uri'
 
 class Api::V1::DestinationsController < ApiController
+  # before_action :authorize_user
   def index
   end
 

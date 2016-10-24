@@ -1,7 +1,8 @@
 import React from 'react';
-import RelatedBooks from './RelatedBooks'
+import RelatedBooks from './RelatedBooks';
 import NewDestinationNote from './NewDestinationNote';
 import EditDestinationNoteControl from './EditDestinationNoteControl';
+import BackToDashboard from './BackToDashboard';
 
 const DestinationDetails = props => {
 
@@ -34,17 +35,23 @@ const DestinationDetails = props => {
       />
   }
   return(
-    <div>
-      <div className="destinationDetails">
-        {props.selectedDestination.city}
-        {props.selectedDestination.country}
-        <p>{props.selectedDestination.short_description}</p>
-        <img className="img-responsive" src={props.selectedDestination.image}/>
-      </div>
+    <div className="destinationDetails">
+      <div className="row">
+          <div className="col s6">
+              <img className="responsive-img" src={props.selectedDestination.image}/>
+          </div>
+          <div className="col s6">
+            <h3>{props.selectedDestination.city}</h3>
+            <h3>{props.selectedDestination.country}</h3>
+            {props.selectedDestination.short_description}
+            {conditionalNoteControl}
+          </div>
+        </div>
       <div>
-        {conditionalNoteControl}
+        <BackToDashboard returnClick={props.returnClick}/>
       </div>
       <div className="relatedBooks">
+        <h4>Books Related to this Destination</h4>
         <RelatedBooks
           myBooks={props.myBooks}
           selectedDestinationBooks={props.selectedDestinationBooks}

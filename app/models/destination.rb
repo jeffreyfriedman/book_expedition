@@ -11,9 +11,9 @@ class Destination < ActiveRecord::Base
     api_key = ENV['FLICKR_KEY']
     formatted_keywords = "#{keywords[:country]}" + "#{keywords[:city].to_s}"
     photos = HTTParty.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=#{api_key}&text=#{formatted_keywords}%20landmark&sort=relevance&license=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8&safe_search=1&content_type=1&media=photos&extras=original_format&format=json&nojsoncallback=1")
-    
-    if !photos.nil?
-      index = 0
+
+    index = 0
+    if !photos.nil? && !photos["photos"].nil?
       while photos["photos"]["photo"][index]['originalsecret'].nil? || photos["photos"]["photo"][index]['originalformat'].nil?
         index += 1
       end
