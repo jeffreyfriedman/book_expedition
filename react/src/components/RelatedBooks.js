@@ -16,12 +16,28 @@ const RelatedBooks = props => {
 
       if (hideBook.length === 0) {
         conditionalBook =
-          <div key={relatedKey}>
-            <BookIcon book={selectedBook} />
-            <BookAddButton
-              key={addKey}
-              onClick={onAddClick}
-            />
+
+          <div className="col s6 m4" key={relatedKey}>
+            <div className="card small horizontal hoverable">
+              <div className="card-image">
+                <img src={selectedBook.image} />
+                <span className="card-title">{selectedBook.category}</span>
+              </div>
+              <div className="card-stacked">
+                <div className="card-content">
+                  <p>{selectedBook.title}</p>
+                </div>
+                <div className="card-action">
+                  <p>{selectedBook.authors}</p>
+                  <span className="right-align">
+                    <BookAddButton
+                      key={addKey}
+                      onClick={onAddClick}
+                      />
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
       }
 
@@ -32,7 +48,7 @@ const RelatedBooks = props => {
   }
 
   return(
-    <div>
+    <div className="row">
       {books}
     </div>
   );

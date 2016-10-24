@@ -22,20 +22,20 @@ describe('DestinationTitle', () => {
         );
       });
 
-    it('should render an li tag', () => {
-      expect(wrapper.find('li')).toBePresent();
+    it('should render a span tag', () => {
+      expect(wrapper.find('span')).toBePresent();
     });
 
-    it('should render an li tag with the text property value "Japan"', () => {
-      expect(wrapper.find('li').text()).toContain('Japan');
+    it('should render a div tag with the text property value "Japan"', () => {
+      expect(wrapper.find('.card-title').text()).toContain('Japan');
     });
 
-    it('should render an li tag with the text property value "Tokyo"', () => {
-      expect(wrapper.find('li').text()).toContain('Tokyo');
+    it('should render an div tag with the text property value "Tokyo"', () => {
+      expect(wrapper.find('.card-title').text()).toContain('Tokyo');
     });
 
     it('should invoke the onClick function from props when clicked', () => {
-      wrapper.simulate('click');
+      wrapper.find('.seeDetails').simulate('click');
       expect(onClick).toHaveBeenCalled();
     });
   });

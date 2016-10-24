@@ -34,6 +34,7 @@ export default class App extends Component {
     this.handleDestinationNoteSubmit = this.handleDestinationNoteSubmit.bind(this);
     this.handleDestinationNoteDeleteClick = this.handleDestinationNoteDeleteClick.bind(this);
     this.handleDestinationNoteEditClick = this.handleDestinationNoteEditClick.bind(this);
+    this.handleReturnToDestinationsClick = this.handleReturnToDestinationsClick.bind(this);
   }
 
   handleDestinationNoteChange(event) {
@@ -80,12 +81,12 @@ export default class App extends Component {
   }
 
   handleDestinationNoteEditClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
     this.setState({ editableDestinationNote: true });
   }
 
   handleDestinationNoteDeleteClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     let newNotes = this.state.userDestinationNotes.filter(note => {
       return note.id !== obj.id;
@@ -181,18 +182,31 @@ export default class App extends Component {
     }
   }
 
-  handleDestinationClick(obj) {
-    this.setState({ selectedDestination: obj })
-    this.getBooks(obj.id)
-    let destinationNote = this.state.userDestinationNotes.filter(note => {
-      return note.destination_id === obj.id;
-    });
+  handleReturnToDestinationsClick() {
+    this.setState({ selectedDestination: "" });
+    this.setState({ selectedDestinationBooks: [] });
+  }
 
-    this.setState({ newDestinationNoteBody: destinationNote[0].note });
+  handleDestinationClick(obj) {
+    // event.preventDefault();
+
+    if (this.state.selectedDestination !== "") {
+      this.setState({ selectedDestination: "" })
+      this.setState({ newDestinationNoteBody: "" });
+    } else {
+      this.setState({ selectedDestination: obj })
+      this.getBooks(obj.id)
+      let destinationNote = this.state.userDestinationNotes.filter(note => {
+        return note.destination_id === obj.id;
+      });
+
+      this.setState({ newDestinationNoteBody: destinationNote[0].note });
+    }
+
   }
 
   handleBookAddClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     let newUserBook = JSON.stringify({ book_id: obj.id });
     let csrfToken = $("meta[name='csrf-token']").attr('content');
@@ -214,7 +228,7 @@ export default class App extends Component {
   }
 
   handleBookDeleteClick(obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     let newBooks = this.state.userBooks.filter(book => {
       return book.id !== obj.id;
@@ -310,36 +324,49 @@ export default class App extends Component {
         handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
         selectedDestinationBooks={this.state.selectedDestinationBooks}
         handleBookAddClick={this.handleBookAddClick}
+        returnClick={this.handleReturnToDestinationsClick}
       />
+    }
+
+    let conditionalClassName;
+    if (this.state.selectedDestination !== "") {
+      conditionalClassName = "hide"
+    } else {
+      conditionalClassName = ""
     }
 
     return(
       <div>
         <h1>Book Expedition</h1>
-        <MyBookList
-          books={this.state.userBooks}
-          handleBookDeleteClick={this.handleBookDeleteClick}
-        />
-        <MyNoteList
-          bookNotes={this.state.userBooks.notes}
-          userDestinationNotes={this.state.userDestinationNotes}
-          handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
-        />
-        <h3>Enter New Destination:</h3>
-        <NewDestination
-          onClick={this.handleFormSubmit}
-          country={this.state.newCountry}
-          city={this.state.newCity}
-          handleCityChange={this.handleCityChange}
-          handleCountryChange={this.handleCountryChange}
-          handleFormSubmit={this.handleFormSubmit}
-        />
-      <h3>My Destinations:</h3>
-        <div className="row">
-          {destinations}
+          <div className={conditionalClassName}>
+          <MyBookList
+            books={this.state.userBooks}
+            handleBookDeleteClick={this.handleBookDeleteClick}
+          />
+          <MyNoteList
+            bookNotes={this.state.userBooks.notes}
+            userDestinationNotes={this.state.userDestinationNotes}
+            handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
+          />
+          <h3>Enter New Destination:</h3>
+          <NewDestination
+            onClick={this.handleFormSubmit}
+            country={this.state.newCountry}
+            city={this.state.newCity}
+            handleCityChange={this.handleCityChange}
+            handleCountryChange={this.handleCountryChange}
+            handleFormSubmit={this.handleFormSubmit}
+          />
+          <div>
+            <h3 className>My Destinations:</h3>
+              <div className="row">
+                {destinations}
+              </div>
+          </div>
         </div>
-        <br></br>
-        {conditionalDestinationDetails}
+        <div>
+          {conditionalDestinationDetails}
+        </div>
       </div>
     )
   }

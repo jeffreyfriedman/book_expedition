@@ -3,8 +3,8 @@ import DeleteDestinationButton from './DeleteDestinationButton';
 
 const DestinationTitle = props => {
   return(
-    <div className="col s4 m4">
-      <div className="card">
+    <div className="col s6 m4">
+      <div className="card medium hoverable">
         <div className="card-image">
           <img src={props.image} />
           <span className="card-title">{props.city} {props.country}</span>
@@ -13,8 +13,8 @@ const DestinationTitle = props => {
           <p>Short Description</p>
         </div>
         <div className="card-action">
-          <span onClick={props.onClick}>See Details</span>
-          <span>
+          <button className="btn seeDetails" onClick={props.onClick}>See Details</button>
+          <span className="right-align">
             <DeleteDestinationButton
               key={props.deleteKey}
               id={props.id}

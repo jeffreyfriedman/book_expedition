@@ -2,7 +2,7 @@ import React from 'react';
 
 const NoteDeleteButton = props => {
   return(
-    <button className="btn btn-default" onClick={props.onClick}>Delete</button>
+    <button className="btn red lighten-3" onClick={props.onClick}>Delete</button>
   )
 }
 

@@ -12,12 +12,15 @@ const EditDestinationNoteControl = props => {
     conditionalNoteControl =
     <div>
       {props.destinationNote.note}
-      <NoteEditButton
-        onClick={onEditClick}
-      />
-      <NoteDeleteButton
-        onClick={onDeleteClick}
-      />
+      <div>
+        <NoteEditButton
+          onClick={onEditClick}
+        />
+        <NoteDeleteButton
+          onClick={onDeleteClick}
+        />
+      </div>
+
     </div>
   } else {
     conditionalNoteControl =
@@ -31,7 +34,7 @@ const EditDestinationNoteControl = props => {
 
   return(
     <div>
-      <h3>My Notes:</h3>
+      <h5>My Notes:</h5>
       {conditionalNoteControl}
     </div>
   )
