@@ -14,7 +14,7 @@ var config = {
         loader: 'babel',
         query:
         {
-          presets:['react']
+          presets:['react', 'es2015', 'stage-0']
         }
       }
     ]

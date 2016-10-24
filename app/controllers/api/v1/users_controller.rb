@@ -7,6 +7,7 @@ class Api::V1::UsersController < ApiController
       user_destination_notes = current_user.user_destinations.order(created_at: :desc)
       user_booknotes = current_user.user_books.order(created_at: :desc)
     end
+    
     render json: {
       user_info: user_info,
       destinations: user_destinations,

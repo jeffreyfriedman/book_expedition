@@ -1,0 +1,8 @@
+export const ADD_DESTINATION = 'ADD_DESTINATION'
+export const DELETE_DESTINATION = 'DELETE_DESTINATION'
+export const FETCH_DESTINATIONS = 'FETCH_DESTINATIONS'
+export const ADD_NOTE = 'ADD_NOTE'
+export const DELETE_NOTE = 'DELETE_NOTE'
+export const EDIT_NOTE = 'EDIT_NOTE'
+export const ADD_BOOK = 'ADD_BOOK'
+export const DELETE_BOOK = 'DELETE_BOOK'
