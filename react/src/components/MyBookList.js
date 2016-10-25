@@ -10,6 +10,13 @@ const MyBookList = props => {
       let deleteKey = `delete_${book.id}`;
       let onDeleteClick = () => props.handleBookDeleteClick(book);
 
+      let authors = book.authors;
+      let maxLength = 25;
+
+      if (book.authors.length > maxLength) {
+        authors = authors.substr(0,maxLength-3) + "…";
+      }
+
       return(
         <div className="col s6 m4" key={bookKey}>
           <div className="card small horizontal hoverable">
@@ -22,7 +29,7 @@ const MyBookList = props => {
                 <p>Title: {book.title}</p>
               </div>
               <div className="card-action">
-                <p>Author(s): {book.authors}</p>
+                <p>Author(s): {authors}</p>
                 <span className="right-align">
                   <BookDeleteButton
                     key={deleteKey}
@@ -39,7 +46,7 @@ const MyBookList = props => {
 
   return(
     <div>
-      <h3>My Book List</h3>
+      <h3>My Books</h3>
       <div className="row">
         {myBooks}
       </div>

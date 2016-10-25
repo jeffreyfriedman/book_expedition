@@ -41,6 +41,7 @@ export default class DestinationDetails extends Component {
       success: function(data) {
         let newBooks = [data.book, ...this.state.userBooks];
         this.setState({ userBooks: newBooks });
+        Materialize.toast('Book added!', 2000)
       }.bind(this)
     });
   }
@@ -77,6 +78,7 @@ export default class DestinationDetails extends Component {
         this.setState({ destinationNote: newUserDestinationNote });
         this.setState({ newDestinationNoteBody: "" });
         this.setState({ editableDestinationNote: false });
+        Materialize.toast('Note added!', 2000)
       });
     }
   }
@@ -102,7 +104,10 @@ export default class DestinationDetails extends Component {
       url: noteDeleteUrl,
       contentType: 'application/json',
       method: 'DELETE'
-    });
+    })
+    .done(data => {
+      Materialize.toast('Note deleted!', 2000)
+    })
   }
 
 
@@ -126,8 +131,8 @@ export default class DestinationDetails extends Component {
   }
 
   render() {
-
     let conditionalNoteControl;
+
     // if valid text in note, show edit controls, otherwise show new note controls
     if ((this.state.destinationNote !== undefined) && (this.state.destinationNote.note !== "")) {
 

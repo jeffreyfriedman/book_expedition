@@ -12,7 +12,7 @@ const DestinationTitle = props => {
           <span className="card-title indigo lighten-4">{props.city} {props.country}</span>
         </div>
         <div className="card-content">
-          <p>Short Description</p>
+          
         </div>
         <div className="card-action">
           <Link to={detailPath}>See Details</Link>

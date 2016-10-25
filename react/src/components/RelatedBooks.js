@@ -4,6 +4,7 @@ import BookAddButton from './BookAddButton'
 const RelatedBooks = props => {
   let books = "";
   let conditionalBook = "";
+
   if (props.selectedDestinationBooks !== undefined) {
     books = props.selectedDestinationBooks.map(selectedBook => {
       let relatedKey = `relatedBook_${selectedBook.id}`;
@@ -13,6 +14,13 @@ const RelatedBooks = props => {
         return book.id === selectedBook.id;
       });
 
+      let authors = selectedBook.authors;
+      let maxLength = 25;
+
+      if (selectedBook.authors.length > maxLength) {
+        authors = authors.substr(0,maxLength-3) + "…";
+      }
+
       if (hideBook.length === 0) {
         conditionalBook =
 
@@ -20,14 +28,14 @@ const RelatedBooks = props => {
             <div className="card small horizontal hoverable">
               <div className="card-image">
                 <img src={selectedBook.image} />
-                <span className="card-title">{selectedBook.category}</span>
+                <span className="card-title indigo lighten-4">{selectedBook.category}</span>
               </div>
               <div className="card-stacked">
                 <div className="card-content">
                   <p>{selectedBook.title}</p>
                 </div>
                 <div className="card-action">
-                  <p>{selectedBook.authors}</p>
+                  <p className="truncate=">{authors}</p>
                   <span className="right-align">
                     <BookAddButton
                       key={addKey}

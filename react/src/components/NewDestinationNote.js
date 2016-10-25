@@ -4,12 +4,11 @@ const NewDestinationNote = props => {
 
   return(
     <div>
-      Enter Note:
       <div className="row">
         <form className="col s12">
           <div className="row">
             <div className="input-field col s12">
-              <input id="textarea1" className="materialize-textarea min-padding"
+              <input id="textarea1" placeholder="Enter Note" className="materialize-textarea min-padding"
                 value={props.newDestinationNoteBody}
                 onChange={props.handleDestinationNoteChange}
               ></input>

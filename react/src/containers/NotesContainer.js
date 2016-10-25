@@ -31,7 +31,10 @@ export default class NotesContainer extends Component {
       url: noteDeleteUrl,
       contentType: 'application/json',
       method: 'DELETE'
-    });
+    })
+    .done(data => {
+      Materialize.toast('Note deleted!', 2000);
+    })
   }
 
   getNotes() {

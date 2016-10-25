@@ -7,14 +7,12 @@ const NewDestination = props => {
       <form className="col s8">
         <div className="row">
           <div className="input-field col s4">
-            <i className="material-icons prefix">account_circle</i>
+            <i className="material-icons prefix align-left">room</i>
             <input placeholder="Enter Country" id="country" type="text" className="validate" />
-            <label htmlFor="country">Country</label>
           </div>
           <div className="input-field col s4">
-            <i className="material-icons prefix">account_circle</i>
+            <i className="material-icons prefix">business</i>
             <input placeholder="Enter City" id="city" type="text" className="validate" />
-            <label htmlFor="city">City</label>
           </div>
           <div className="input-field col s4">
             <button className="btn" onClick={props.handleFormSubmit}>Submit</button>
