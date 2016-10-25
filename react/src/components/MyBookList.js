@@ -11,15 +11,27 @@ const MyBookList = props => {
       let onDeleteClick = () => props.handleBookDeleteClick(book);
 
       return(
-        <div key={bookKey} className="col-sm-2">
-          <figure>
-            <img src={book.image} />
-            <figcaption>{book.title}</figcaption>
-              <BookDeleteButton
-                key={deleteKey}
-                onClick={onDeleteClick}
-              />
-          </figure>
+        <div className="col s6 m4" key={bookKey}>
+          <div className="card small horizontal hoverable">
+            <div className="card-image">
+              <img src={book.image} />
+              <span className="card-title indigo lighten-4">{book.category}</span>
+            </div>
+            <div className="card-stacked">
+              <div className="card-content">
+                <p>Title: {book.title}</p>
+              </div>
+              <div className="card-action">
+                <p>Author(s): {book.authors}</p>
+                <span className="right-align">
+                  <BookDeleteButton
+                    key={deleteKey}
+                    onClick={onDeleteClick}
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       )
     })

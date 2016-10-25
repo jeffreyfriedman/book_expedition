@@ -31,9 +31,6 @@ const DestinationList = props => {
 
   return(
     <div>
-      <div>Destinations</div>
-
-      <h3>Enter New Destination:</h3>
       <NewDestination
         onClick={props.handleFormSubmit}
         country={props.newCountry}
@@ -43,7 +40,7 @@ const DestinationList = props => {
         handleFormSubmit={props.handleFormSubmit}
         />
       <div>
-        <h3 className>My Destinations:</h3>
+        <h3 className>My Destinations</h3>
         <div className="row">
           {destinations}
         </div>

@@ -27,109 +27,7 @@ export default class DestinationsContainer extends Component {
     this.handleDestinationDeleteClick = this.handleDestinationDeleteClick.bind(this)
     this.handleCountryChange = this.handleCountryChange.bind(this)
     this.handleCityChange = this.handleCityChange.bind(this)
-    this.handleDestinationNoteChange = this.handleDestinationNoteChange.bind(this);
-    this.handleDestinationNoteSubmit = this.handleDestinationNoteSubmit.bind(this);
-    this.handleDestinationNoteDeleteClick = this.handleDestinationNoteDeleteClick.bind(this);
-    this.handleDestinationNoteEditClick = this.handleDestinationNoteEditClick.bind(this);
-    this.handleBookAddClick = this.handleBookAddClick.bind(this);
   }
-
-  handleBookAddClick(obj) {
-    // event.preventDefault();
-
-    let newUserBook = JSON.stringify({ book_id: obj.id });
-    let csrfToken = $("meta[name='csrf-token']").attr('content');
-
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
-    });
-
-    $.ajax({
-      url: '/api/v1/userbooks',
-      contentType: 'application/json',
-      method: 'POST',
-      data: newUserBook,
-      success: function(data) {
-        let newBooks = [data.book, ...this.state.userBooks];
-        this.setState({ userBooks: newBooks });
-      }.bind(this)
-    });
-  }
-
-
-  handleDestinationNoteChange(event) {
-    let newNote = event.target.value;
-    this.setState({ newDestinationNoteBody: newNote });
-  }
-
-  handleDestinationNoteSubmit(id) {
-
-    // temporarily remove the previous version of the note from the notes list
-    let newNotes = this.state.userDestinationNotes.filter(note => {
-      return note.destination_id !== this.state.selectedDestination.id;
-    });
-    this.setState({ userDestinationNotes: newNotes });
-
-    let notePost;
-    if (this.state.newDestinationNoteBody.length > 0) {
-      notePost = JSON.stringify({ note: {note: this.state.newDestinationNoteBody} });
-      let csrfToken = $("meta[name='csrf-token']").attr('content');
-
-      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-        jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
-      });
-
-      $.ajax({
-        url: '/api/v1/userdestinations/' + id,
-        contentType: 'application/json',
-        method: 'PATCH',
-        data: notePost,
-        success: function(data) {
-          let newUserDestinationNotes = [{
-            id: data.userDestination.id,
-            user_id: data.userDestination.user_id,
-            destination_id: data.userDestination.destination_id,
-            note: data.userDestination.note
-          }, ...this.state.userDestinationNotes]
-          this.setState({ userDestinationNotes: newUserDestinationNotes });
-          this.setState({ newDestinationNoteBody: "" });
-          this.setState({ editableDestinationNote: false });
-        }.bind(this)
-      });
-    }
-  }
-
-  handleDestinationNoteEditClick(obj) {
-    // event.preventDefault();
-    this.setState({ editableDestinationNote: true });
-  }
-
-  handleDestinationNoteDeleteClick(obj) {
-    // event.preventDefault();
-
-    let newNotes = this.state.userDestinationNotes.filter(note => {
-      return note.id !== obj.id;
-    });
-    this.setState({ userDestinationNotes: newNotes });
-
-    let noteToDelete = this.state.userDestinationNotes.filter(note => {
-      return note.id === obj.id;
-    });
-    let noteDeleteUrl = `/api/v1/userdestinations/${noteToDelete[0].id}`;
-
-    let csrfToken = $("meta[name='csrf-token']").attr('content');
-
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
-    });
-
-    $.ajax({
-      url: noteDeleteUrl,
-      contentType: 'application/json',
-      method: 'DELETE'
-    });
-  }
-
 
   getBooks(destination_id) {
     $.ajax({
@@ -179,7 +77,6 @@ export default class DestinationsContainer extends Component {
   }
 
   handleFormSubmit(event) {
-    debugger;
     event.preventDefault();
     let destinationPost;
 

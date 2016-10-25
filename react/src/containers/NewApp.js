@@ -18,9 +18,11 @@ export default class NewApp extends Component {
           <div className="nav-wrapper">
             <ul>
               <li className=""><IndexLink to="/">Dashboard</IndexLink></li>
-              <li className=""><NavLink to="/destinations">Destinations</NavLink></li>
-              <li className=""><NavLink to="/books">Books</NavLink></li>
-              <li className=""><NavLink to="/notes">Notes</NavLink></li>
+              <li className=""><NavLink to="/destinations">My Destinations</NavLink></li>
+              <li className=""><NavLink to="/books">My Books</NavLink></li>
+              <li className=""><NavLink to="/notes">My Notes</NavLink></li>
+              <li className=""><NavLink to="/editprofile">Edit Profile</NavLink></li>
+              <li className=""><NavLink to="/signout">Sign Out</NavLink></li>
             </ul>
           </div>
         </nav>

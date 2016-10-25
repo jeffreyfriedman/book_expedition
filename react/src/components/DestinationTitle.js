@@ -9,7 +9,7 @@ const DestinationTitle = props => {
       <div className="card medium hoverable">
         <div className="card-image">
           <img src={props.image} />
-          <span className="card-title">{props.city} {props.country}</span>
+          <span className="card-title indigo lighten-4">{props.city} {props.country}</span>
         </div>
         <div className="card-content">
           <p>Short Description</p>
