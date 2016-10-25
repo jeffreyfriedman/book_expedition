@@ -1,5 +1,4 @@
 import React from 'react';
-import BookIcon from './BookIcon'
 import BookAddButton from './BookAddButton'
 
 const RelatedBooks = props => {

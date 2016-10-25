@@ -1,15 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router';
 import RelatedBooks from './RelatedBooks';
 import NewDestinationNote from './NewDestinationNote';
 import EditDestinationNoteControl from './EditDestinationNoteControl';
 import BackToDashboard from './BackToDashboard';
 
 const DestinationDetails = props => {
-
   let destinationNote = props.userDestinationNotes.filter(note => {
-    return note.id === props.selectedDestination.id;
+    return note.destination_id == props.selectedDestination;
   });
-
+  debugger;
   let conditionalNoteControl;
   // if valid text in note, show edit controls, otherwise show new note controls
   if ((destinationNote[0] !== undefined) && (destinationNote[0].note !== "")) {
@@ -48,7 +48,11 @@ const DestinationDetails = props => {
           </div>
         </div>
       <div>
-        <BackToDashboard returnClick={props.returnClick}/>
+        <Link to="/destinations">
+          <p className="waves-effect waves-light btn">
+            <i className="material-icons left">ic_arrow_back</i>Back to Destinations
+          </p>
+        </Link>
       </div>
       <div className="relatedBooks">
         <h4>Books Related to this Destination</h4>

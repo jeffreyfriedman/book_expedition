@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router';
 import DeleteDestinationButton from './DeleteDestinationButton';
 
 const DestinationTitle = props => {
+  let detailPath = `/destinations/${props.id}`
   return(
     <div className="col s6 m4">
       <div className="card medium hoverable">
@@ -13,7 +15,7 @@ const DestinationTitle = props => {
           <p>Short Description</p>
         </div>
         <div className="card-action">
-          <button className="btn seeDetails" onClick={props.onClick}>See Details</button>
+          <Link to={detailPath}>See Details</Link>
           <span className="right-align">
             <DeleteDestinationButton
               key={props.deleteKey}

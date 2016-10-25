@@ -111,99 +111,98 @@ export default class App extends Component {
     });
   }
 
-  handleCountryChange(event) {
-    let newCountry = event.target.value;
-    this.setState({ newCountry: newCountry });
-  }
+  // handleCountryChange(event) {
+  //   let newCountry = event.target.value;
+  //   this.setState({ newCountry: newCountry });
+  // }
+  //
+  // handleCityChange(event) {
+  //   let newCity = event.target.value;
+  //   this.setState({ newCity: newCity });
+  // }
 
-  handleCityChange(event) {
-    let newCity = event.target.value;
-    this.setState({ newCity: newCity });
-  }
+  // handleDestinationDeleteClick(id) {
+  //   let newDestinations = this.state.userDestinations.filter(destination => {
+  //     return destination.id !== id;
+  //   });
+  //   this.setState({ userDestinations: newDestinations });
+  //
+  //   let destinationToDelete = this.state.userDestinations.filter(destination => {
+  //     return destination.id === id;
+  //   });
+  //   let destinationDeleteUrl = `/api/v1/destinations/${destinationToDelete[0].id}`;
+  //
+  //   this.setState({ selectedDestination: "" });
+  //   this.setState({ selectedDestinationBooks: [] });
+  //   // Retrieve the current CSRF-TOKEN
+  //   let csrfToken = $("meta[name='csrf-token']").attr('content');
+  //
+  //   $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+  //     jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+  //   });
+  //
+  //   $.ajax({
+  //     url: destinationDeleteUrl,
+  //     contentType: 'application/json',
+  //     method: 'DELETE',
+  //   });
+  // }
 
-  handleDestinationDeleteClick(id) {
-    let newDestinations = this.state.userDestinations.filter(destination => {
-      return destination.id !== id;
-    });
-    this.setState({ userDestinations: newDestinations });
-
-    let destinationToDelete = this.state.userDestinations.filter(destination => {
-      return destination.id === id;
-    });
-    let destinationDeleteUrl = `/api/v1/destinations/${destinationToDelete[0].id}`;
-
-    this.setState({ selectedDestination: "" });
-    this.setState({ selectedDestinationBooks: [] });
-    // Retrieve the current CSRF-TOKEN
-    let csrfToken = $("meta[name='csrf-token']").attr('content');
-
-    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
-    });
-
-    $.ajax({
-      url: destinationDeleteUrl,
-      contentType: 'application/json',
-      method: 'DELETE',
-    });
-  }
-
-  handleFormSubmit(event) {
-    event.preventDefault();
-    let destinationPost;
-
-    if (this.state.newCountry.length > 0) {
-      destinationPost = JSON.stringify({ country: this.state.newCountry, city: this.state.newCity });
-      let csrfToken = $("meta[name='csrf-token']").attr('content');
-
-      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-        jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
-      });
-
-      $.ajax({
-        url: '/api/v1/destinations',
-        contentType: 'application/json',
-        method: 'POST',
-        data: destinationPost,
-        success: function(data) {
-          let newDestinations = [data.destination, ...this.state.userDestinations];
-          let newUserDestinationNotes = [{
-            id: data.userDestination.id,
-            user_id: data.userDestination.user_id,
-            destination_id: data.userDestination.destination_id,
-            note: ""
-          }, ...this.state.userDestinationNotes]
-          this.setState({ userDestinations: newDestinations });
-          this.setState({ userDestinationNotes: newUserDestinationNotes });
-          this.setState({ newCountry: "" });
-          this.setState({ newCity: "" });
-        }.bind(this)
-      });
-    }
-  }
+  // handleFormSubmit(event) {
+  //   event.preventDefault();
+  //   let destinationPost;
+  //
+  //   if (this.state.newCountry.length > 0) {
+  //     destinationPost = JSON.stringify({ country: this.state.newCountry, city: this.state.newCity });
+  //     let csrfToken = $("meta[name='csrf-token']").attr('content');
+  //
+  //     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+  //       jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+  //     });
+  //
+  //     $.ajax({
+  //       url: '/api/v1/destinations',
+  //       contentType: 'application/json',
+  //       method: 'POST',
+  //       data: destinationPost,
+  //       success: function(data) {
+  //         let newDestinations = [data.destination, ...this.state.userDestinations];
+  //         let newUserDestinationNotes = [{
+  //           id: data.userDestination.id,
+  //           user_id: data.userDestination.user_id,
+  //           destination_id: data.userDestination.destination_id,
+  //           note: ""
+  //         }, ...this.state.userDestinationNotes]
+  //         this.setState({ userDestinations: newDestinations });
+  //         this.setState({ userDestinationNotes: newUserDestinationNotes });
+  //         this.setState({ newCountry: "" });
+  //         this.setState({ newCity: "" });
+  //       }.bind(this)
+  //     });
+  //   }
+  // }
 
   handleReturnToDestinationsClick() {
     this.setState({ selectedDestination: "" });
     this.setState({ selectedDestinationBooks: [] });
   }
 
-  handleDestinationClick(obj) {
-    // event.preventDefault();
-
-    if (this.state.selectedDestination !== "") {
-      this.setState({ selectedDestination: "" })
-      this.setState({ newDestinationNoteBody: "" });
-    } else {
-      this.setState({ selectedDestination: obj })
-      this.getBooks(obj.id)
-      let destinationNote = this.state.userDestinationNotes.filter(note => {
-        return note.destination_id === obj.id;
-      });
-
-      this.setState({ newDestinationNoteBody: destinationNote[0].note });
-    }
-
-  }
+  // handleDestinationClick(obj) {
+  //   // event.preventDefault();
+  //
+  //   if (this.state.selectedDestination !== "") {
+  //     this.setState({ selectedDestination: "" })
+  //     this.setState({ newDestinationNoteBody: "" });
+  //   } else {
+  //     this.setState({ selectedDestination: obj })
+  //     this.getBooks(obj.id)
+  //     let destinationNote = this.state.userDestinationNotes.filter(note => {
+  //       return note.destination_id === obj.id;
+  //     });
+  //
+  //     this.setState({ newDestinationNoteBody: destinationNote[0].note });
+  //   }
+  // }
 
   handleBookAddClick(obj) {
     // event.preventDefault();
@@ -283,50 +282,50 @@ export default class App extends Component {
   }
 
   render() {
-    let destinations = "";
-    if (this.state.userDestinations) {
-      destinations = this.state.userDestinations.map(destination => {
-        let destinationKey = `destination_${destination.id}`;
-        let destinationTitleId = `destination_title_${destination.id}`;
-        let destinationDeleteId = `delete_${destination.id}`;
-        let onClick = () => this.handleDestinationClick(destination);
-        let onDelete = () => this.handleDestinationDeleteClick(destination.id);
-        return(
-          <div key={destinationKey}>
-            <DestinationTitle
-              key={destinationTitleId}
-              id={destination.id}
-              country={destination.country}
-              city={destination.city}
-              image={destination.image}
-              onClick={onClick}
-              deleteKey={destinationDeleteId}
-              deleteClick={onDelete}
-            />
-          </div>
-        )
-      })
-    }
-
-    let conditionalDestinationDetails = "";
-    if (this.state.selectedDestination.id !== undefined) {
-
-      conditionalDestinationDetails =
-      <DestinationDetails
-        myBooks={this.state.userBooks}
-        selectedDestination={this.state.selectedDestination}
-        userDestinationNotes={this.state.userDestinationNotes}
-        editableDestinationNote={this.state.editableDestinationNote}
-        newDestinationNoteBody={this.state.newDestinationNoteBody}
-        handleDestinationNoteChange={this.handleDestinationNoteChange}
-        handleDestinationNoteSubmit={this.handleDestinationNoteSubmit}
-        handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
-        handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
-        selectedDestinationBooks={this.state.selectedDestinationBooks}
-        handleBookAddClick={this.handleBookAddClick}
-        returnClick={this.handleReturnToDestinationsClick}
-      />
-    }
+    // let destinations = "";
+    // if (this.state.userDestinations) {
+    //   destinations = this.state.userDestinations.map(destination => {
+    //     let destinationKey = `destination_${destination.id}`;
+    //     let destinationTitleId = `destination_title_${destination.id}`;
+    //     let destinationDeleteId = `delete_${destination.id}`;
+    //     let onClick = () => this.handleDestinationClick(destination);
+    //     let onDelete = () => this.handleDestinationDeleteClick(destination.id);
+    //     return(
+    //       <div key={destinationKey}>
+    //         <DestinationTitle
+    //           key={destinationTitleId}
+    //           id={destination.id}
+    //           country={destination.country}
+    //           city={destination.city}
+    //           image={destination.image}
+    //           onClick={onClick}
+    //           deleteKey={destinationDeleteId}
+    //           deleteClick={onDelete}
+    //         />
+    //       </div>
+    //     )
+    //   })
+    // }
+    //
+    // let conditionalDestinationDetails = "";
+    // if (this.state.selectedDestination.id !== undefined) {
+    //
+    //   conditionalDestinationDetails =
+    //   <DestinationDetails
+    //     myBooks={this.state.userBooks}
+    //     selectedDestination={this.state.selectedDestination}
+    //     userDestinationNotes={this.state.userDestinationNotes}
+    //     editableDestinationNote={this.state.editableDestinationNote}
+    //     newDestinationNoteBody={this.state.newDestinationNoteBody}
+    //     handleDestinationNoteChange={this.handleDestinationNoteChange}
+    //     handleDestinationNoteSubmit={this.handleDestinationNoteSubmit}
+    //     handleDestinationNoteDeleteClick={this.handleDestinationNoteDeleteClick}
+    //     handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
+    //     selectedDestinationBooks={this.state.selectedDestinationBooks}
+    //     handleBookAddClick={this.handleBookAddClick}
+    //     returnClick={this.handleReturnToDestinationsClick}
+    //   />
+    // }
 
     let conditionalClassName;
     if (this.state.selectedDestination !== "") {
