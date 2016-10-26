@@ -94,19 +94,20 @@ export default class DestinationsContainer extends Component {
         method: 'POST',
         data: destinationPost,
         success: function(data) {
+          debugger;
           let newDestinations = [data.destination, ...this.state.userDestinations];
           let newUserDestinationNotes = [{
             id: data.userDestination.id,
             user_id: data.userDestination.user_id,
             destination_id: data.userDestination.destination_id,
             note: ""
-          }, ...this.state.userDestinationNotes]
+          }, ...this.state.userDestinationNotes];
           this.setState({ userDestinations: newDestinations });
           this.setState({ userDestinationNotes: newUserDestinationNotes });
           this.setState({ newCountry: "" });
           this.setState({ newCity: "" });
         }.bind(this)
-      });
+      })
     }
   }
 
@@ -146,6 +147,7 @@ export default class DestinationsContainer extends Component {
   }
 
   render() {
+
     let switchElement;
     if (this.props.params.destination == undefined) {
       switchElement =
@@ -157,6 +159,8 @@ export default class DestinationsContainer extends Component {
         handleCityChange={this.handleCityChange}
         handleCountryChange={this.handleCountryChange}
         handleFormSubmit={this.handleFormSubmit}
+        handleDestinationDeleteClick={this.handleDestinationDeleteClick}
+        handleDestinationClick={this.handleDestinationClick}
       />)
     } else {
       let onSubmit = () => this.handleDestinationNoteSubmit(this.props.params.destination)

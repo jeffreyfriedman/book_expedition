@@ -3,6 +3,7 @@ import DestinationTitle from './DestinationTitle'
 import NewDestination from './NewDestination'
 
 const DestinationList = props => {
+
   let destinations = "";
   if (props.userDestinations) {
     destinations = props.userDestinations.map(destination => {
@@ -10,8 +11,8 @@ const DestinationList = props => {
       let destinationKey = `destination_${destination.id}`;
       let destinationTitleId = `destination_title_${destination.id}`;
       let destinationDeleteId = `delete_${destination.id}`;
-      let onClick = () => this.handleDestinationClick(destination);
-      let onDelete = () => this.handleDestinationDeleteClick(destination.id);
+      let onClick = () => props.handleDestinationClick(destination);
+      let onDelete = () => props.handleDestinationDeleteClick(destination.id);
       return(
         <div key={destinationKey}>
           <DestinationTitle

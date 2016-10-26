@@ -13,7 +13,7 @@ class Destination < ActiveRecord::Base
     photos = HTTParty.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=#{api_key}&text=#{formatted_keywords}%20landmark&sort=relevance&license=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8&safe_search=1&content_type=1&media=photos&extras=original_format&format=json&nojsoncallback=1")
 
     index = 0
-    if !photos.nil? 
+    if !photos.nil?
       while photos["photos"]["photo"][index]['originalsecret'].nil? || photos["photos"]["photo"][index]['originalformat'].nil?
         index += 1
       end
@@ -52,7 +52,11 @@ class Destination < ActiveRecord::Base
           else
             isbn = "" #if no ISBN
           end
-          image = book["items"][0]["volumeInfo"]["imageLinks"]["smallThumbnail"]
+          if !book["items"][0]["volumeInfo"]["imageLinks"].nil?
+            image = book["items"][0]["volumeInfo"]["imageLinks"]["smallThumbnail"]
+          else
+            image = ""
+          end
           url = isbn != "" ? "https://www.amazon.com/dp/#{isbn}/?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}" : ""
           newbook = Book.new(title: title, authors: authors, description: description, category: keyword, isbn: isbn, image: image, url: url)
           if newbook.save

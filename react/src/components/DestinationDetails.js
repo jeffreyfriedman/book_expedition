@@ -76,6 +76,7 @@ export default class DestinationDetails extends Component {
   }
 
   handleDestinationNoteSubmit() {
+
     let notePost;
     if (this.state.newDestinationNoteBody.length > 0) {
       notePost = JSON.stringify({ note: {note: this.state.newDestinationNoteBody} });
@@ -86,7 +87,7 @@ export default class DestinationDetails extends Component {
       });
 
       $.ajax({
-        url: '/api/v1/userdestinations/' + this.state.destinationNote.id,
+        url: '/api/v1/userdestinations/' + this.state.destinationNote.destination_id,
         contentType: 'application/json',
         method: 'PATCH',
         data: notePost
@@ -106,8 +107,7 @@ export default class DestinationDetails extends Component {
     }
   }
 
-  handleDestinationNoteEditClick() {
-    // event.preventDefault();
+  handleDestinationNoteEditClick(obj) {
     this.setState({ editableDestinationNote: true });
     this.setState({ newDestinationNoteBody: this.state.destinationNote.note });
   }
@@ -132,7 +132,6 @@ export default class DestinationDetails extends Component {
       Materialize.toast('Note deleted!', 2000)
     })
   }
-
 
   getDestination(destination_id) {
     $.ajax({
