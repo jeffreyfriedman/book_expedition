@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 export default class DashboardContainer extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class DashboardContainer extends Component {
   }
 
   render() {
-    let userName, recentDestination, recentBook, recentNote = "";
+    let userName, recentDestination, recentBook, recentNote, destination = "";
     if (this.state.userInfo.first_name != undefined) {
       userName = this.state.userInfo.first_name;
     }
@@ -42,8 +43,13 @@ export default class DashboardContainer extends Component {
       recentBook = this.state.userBooks[0].title;
     }
     if (this.state.userDestinationNotes[0] != undefined) {
-      debugger;
-      recentNote = this.state.userDestinationNotes[0].note;
+      recentNote = this.state.userDestinationNotes[0];
+      if (recentNote !== undefined) {
+        destination = this.state.userDestinations.filter(destination => {
+          return destination.id === recentNote.destination_id;
+        });
+      }
+
     }
     return(
       <div>
@@ -57,7 +63,7 @@ export default class DashboardContainer extends Component {
                   <p>{recentDestination}</p>
                 </div>
                 <div className="card-action">
-                  <a href="#">My Destinations</a>
+                  <Link to="/destinations">My Destinations</Link>
                 </div>
               </div>
             </div>
@@ -68,7 +74,7 @@ export default class DashboardContainer extends Component {
                   <p>{recentBook}</p>
                 </div>
                 <div className="card-action">
-                  <a href="#">My Books</a>
+                  <Link to="/books">My Books</Link>
                 </div>
               </div>
             </div>
@@ -76,10 +82,10 @@ export default class DashboardContainer extends Component {
               <div className="card blue-grey darken-1">
                 <div className="card-content white-text">
                   <span className="card-title">Recently Added Note</span>
-                  <p>{recentNote}</p>
+                  <p>{destination[0].city} {destination[0].country}: {recentNote.note}</p>
                 </div>
                 <div className="card-action">
-                  <a href="#">My Notes</a>
+                  <Link to="/notes">My Notes</Link>
                 </div>
               </div>
             </div>

@@ -36,3 +36,9 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('.erb-display').hide();
 })
+
+$('document').ready(function() {
+  setTimeout(function() {
+    $('#flash').slideUp();
+  }, 3000);
+});

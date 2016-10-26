@@ -5,6 +5,7 @@ export default class NotesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userDestinations: [],
       userDestinationNotes: [],
       editableDestinationNote: false,
       destinationNote: "",
@@ -98,7 +99,8 @@ export default class NotesContainer extends Component {
     })
     .done(data => {
       this.setState({
-        userDestinationNotes: data.destination_notes
+        userDestinationNotes: data.destination_notes,
+        userDestinations: data.destinations
       });
     });
   }
@@ -119,6 +121,7 @@ export default class NotesContainer extends Component {
           handleDestinationNoteSubmit={this.handleDestinationNoteSubmit}
           editableDestinationNote={this.state.editableDestinationNote}
           newDestinationNoteBody={this.state.newDestinationNoteBody}
+          userDestinations={this.state.userDestinations}
         />
       </div>
     )

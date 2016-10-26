@@ -4,7 +4,6 @@ import NoteEditButton from './NoteEditButton'
 import NewDestinationNote from './NewDestinationNote'
 
 const MyNoteList = props => {
-
   let myNotes = "";
   let myDestinationNotes = "";
   let conditionalNoteControl;
@@ -20,11 +19,15 @@ const MyNoteList = props => {
       let onEditClick = () => props.handleDestinationNoteEditClick(destinationNote);
       let onSubmit = () => props.handleDestinationNoteSubmit(destinationNote);
 
+      let destination = props.userDestinations.filter(destination => {
+        return destination.id === destinationNote.destination_id;
+      });
+
       if (props.editableDestinationNote === false) {
         conditionalNoteControl =
         <div className="card blue-grey darken-1" key={destinationNoteKey}>
           <div className="card-content white-text">
-            <span className="card-title">Note {destinationNote.id}</span>
+            <span className="card-title">{destination[0].city} {destination[0].country} Note</span>
             <p>{destinationNote.note}</p>
           </div>
           <div className="card-action">
