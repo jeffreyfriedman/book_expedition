@@ -39,6 +39,7 @@ const DestinationList = props => {
         handleCityChange={props.handleCityChange}
         handleCountryChange={props.handleCountryChange}
         handleFormSubmit={props.handleFormSubmit}
+        countryError={props.countryError}
         />
       <div>
         <h3>My Destinations</h3>

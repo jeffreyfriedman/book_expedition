@@ -15,7 +15,8 @@ const NewDestination = props => {
               placeholder="Enter Country"
               id="country"
               type="text"
-              className="validate" />
+              className="validate autocomplete" />
+            <label htmlFor="country" data-error="" data-success="" className="red-text">{props.countryError}</label>
           </div>
           <div className="input-field col s4">
             <i className="material-icons prefix">business</i>
@@ -31,26 +32,11 @@ const NewDestination = props => {
             <button className="btn" onClick={props.handleFormSubmit}>Submit</button>
           </div>
         </div>
+        <div className="row">
+        </div>
       </form>
     </div>
   )
 }
 
 export default NewDestination;
-
-// <div className="row">
-//   <div className="container col s4">
-//     <h4>Enter New Destination:</h4>
-//       Country (required):
-//       <input
-//         value={props.country}
-//         onChange={props.handleCountryChange}
-//       />
-//       City (optional):
-//       <input
-//         value={props.city}
-//         onChange={props.handleCityChange}
-//       />
-//     <button className="btn" onClick={props.handleFormSubmit}>Submit</button>
-//   </div>
-// </div>

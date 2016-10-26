@@ -32,6 +32,7 @@ const EditDestinationNoteControl = props => {
       newDestinationNoteBody={props.newDestinationNoteBody}
       handleDestinationNoteChange={props.handleDestinationNoteChange}
       handleDestinationNoteSubmit={props.handleDestinationNoteSubmit}
+      countryError={props.countryError}
     />
   }
 
