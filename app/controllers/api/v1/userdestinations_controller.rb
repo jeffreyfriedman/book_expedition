@@ -1,6 +1,5 @@
 class Api::V1::UserdestinationsController < ApiController
   def update
-    binding.pry
     user_destination = UserDestination.find_by(user: current_user, destination: params[:id])
     user_destination.update_attribute(:note, ud_note_params[:note])
     render json: { userDestination: user_destination }, status: :ok

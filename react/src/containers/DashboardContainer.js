@@ -42,14 +42,48 @@ export default class DashboardContainer extends Component {
       recentBook = this.state.userBooks[0].title;
     }
     if (this.state.userDestinationNotes[0] != undefined) {
+      debugger;
       recentNote = this.state.userDestinationNotes[0].note;
     }
     return(
       <div>
-        <p>Welcome, {userName}</p>
-        <p>Most Recently Added Destination: {recentDestination}</p>
-        <p>Most Recently Added Book: {recentBook}</p>
-        <p>Most Recently Added Note: {recentNote}</p>
+        <h1 className="center-align">Welcome, {userName}</h1>
+
+          <div className="row">
+            <div className="col s4 m4">
+              <div className="card blue-grey darken-1">
+                <div className="card-content white-text">
+                  <span className="card-title">Recently Added Destination</span>
+                  <p>{recentDestination}</p>
+                </div>
+                <div className="card-action">
+                  <a href="#">My Destinations</a>
+                </div>
+              </div>
+            </div>
+              <div className="col s4 m4">
+              <div className="card blue-grey darken-1">
+                <div className="card-content white-text">
+                  <span className="card-title">Recently Added Book</span>
+                  <p>{recentBook}</p>
+                </div>
+                <div className="card-action">
+                  <a href="#">My Books</a>
+                </div>
+              </div>
+            </div>
+              <div className="col s4 m4">
+              <div className="card blue-grey darken-1">
+                <div className="card-content white-text">
+                  <span className="card-title">Recently Added Note</span>
+                  <p>{recentNote}</p>
+                </div>
+                <div className="card-action">
+                  <a href="#">My Notes</a>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     )
   }
