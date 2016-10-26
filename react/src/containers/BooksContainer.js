@@ -20,7 +20,6 @@ export default class BooksContainer extends Component {
       return book.id === obj.id;
     });
     let bookDeleteUrl = `/api/v1/userbooks/${bookToDelete[0].id}`;
-
     let csrfToken = $("meta[name='csrf-token']").attr('content');
 
     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
@@ -33,7 +32,6 @@ export default class BooksContainer extends Component {
       method: 'DELETE'
     });
   }
-
 
   getBooks() {
     $.ajax({
@@ -52,7 +50,6 @@ export default class BooksContainer extends Component {
   }
 
   render() {
-
     return(
       <div>
         <MyBookList

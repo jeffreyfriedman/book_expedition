@@ -33,10 +33,5 @@ describe('DestinationTitle', () => {
     it('should render an div tag with the text property value "Tokyo"', () => {
       expect(wrapper.find('.card-title').text()).toContain('Tokyo');
     });
-
-    it('should invoke the onClick function from props when clicked', () => {
-      wrapper.find('.seeDetails').simulate('click');
-      expect(onClick).toHaveBeenCalled();
-    });
   });
 });

@@ -2,8 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import App from './components/App'
-import NewApp from './containers/NewApp'
+import App from './containers/App'
 import DashboardContainer from './containers/DashboardContainer'
 import DestinationsContainer from './containers/DestinationsContainer'
 import BooksContainer from './containers/BooksContainer'
@@ -16,7 +15,7 @@ $(document).ready(function() {
     $(function() {
       ReactDOM.render(
         <Router history={hashHistory}>
-          <Route path="/" component={NewApp}>
+          <Route path="/" component={App}>
             <IndexRoute component={DashboardContainer}/>
             <Route path="/destinations(/:destination)" component={DestinationsContainer} />
             <Route path="/books(/:book)" component={BooksContainer} />
@@ -30,8 +29,6 @@ $(document).ready(function() {
     });
   }
 })
-// <Route path="/" component={App}></Route>
-// <Route path="/destinations(/:destination)" component={DestinationsContainer}></Route>
 
 $(document).ready(function() {
   $('.erb-display').hide();

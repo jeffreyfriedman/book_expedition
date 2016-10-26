@@ -26,10 +26,10 @@ const MyBookList = props => {
             </div>
             <div className="card-stacked">
               <div className="card-content">
-                <p>Title: {book.title}</p>
+                <p className="booktitle">Title: {book.title}</p>
               </div>
               <div className="card-action">
-                <p>Author(s): {authors}</p>
+                <p className="">Author(s): {authors}</p>
                 <span className="right-align">
                   <BookDeleteButton
                     key={deleteKey}

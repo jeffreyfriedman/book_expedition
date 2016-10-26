@@ -110,7 +110,6 @@ export default class NotesContainer extends Component {
   }
 
   render() {
-
     return(
       <div>
         <MyNoteList

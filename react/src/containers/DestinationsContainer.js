@@ -77,7 +77,6 @@ export default class DestinationsContainer extends Component {
   }
 
   handleFormSubmit(event) {
-    debugger;
     event.preventDefault();
     let destinationPost;
 
@@ -97,7 +96,6 @@ export default class DestinationsContainer extends Component {
         method: 'POST',
         data: destinationPost,
         success: function(data) {
-          debugger;
           let newDestinations = [data.destination, ...this.state.userDestinations];
           let newUserDestinationNotes = [{
             id: data.userDestination.id,
@@ -113,7 +111,6 @@ export default class DestinationsContainer extends Component {
   }
 
   handleDestinationClick(obj) {
-
     if (this.state.selectedDestination !== "") {
       this.setState({ selectedDestination: "" })
       this.setState({ newDestinationNoteBody: "" });

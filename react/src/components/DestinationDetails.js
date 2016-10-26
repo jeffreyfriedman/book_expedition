@@ -76,7 +76,6 @@ export default class DestinationDetails extends Component {
   }
 
   handleDestinationNoteSubmit() {
-
     let notePost;
     if (this.state.newDestinationNoteBody.length > 0) {
       notePost = JSON.stringify({ note: {note: this.state.newDestinationNoteBody} });
@@ -173,7 +172,6 @@ export default class DestinationDetails extends Component {
           handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
         />
     } else {
-
       conditionalNoteControl =
         <NewDestinationNote
           newDestinationNoteBody={this.state.newDestinationNoteBody}

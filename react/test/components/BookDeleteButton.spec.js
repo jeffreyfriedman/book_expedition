@@ -23,8 +23,8 @@ describe('BookDeleteButton', () => {
       expect(wrapper.find('button')).toBePresent();
     });
 
-    it('should render a button tag with the text property value "Delete"', () => {
-      expect(wrapper.find('button').text()).toContain('Delete');
+    it('should render a button tag with the text property value "Remove"', () => {
+      expect(wrapper.find('button').text()).toContain('Remove');
     });
 
 
