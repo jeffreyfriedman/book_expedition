@@ -15,7 +15,7 @@ export default class DestinationsContainer extends Component {
       userBooks: [],
       selectedDestination: "",
       selectedDestinationBooks: [],
-      editableDestinationNote: false,
+      editableDestinationNote: "",
       newDestinationNoteBody: "",
       newCountry: "",
       newCity: "",

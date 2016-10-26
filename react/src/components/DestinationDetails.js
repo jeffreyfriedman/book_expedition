@@ -13,7 +13,7 @@ export default class DestinationDetails extends Component {
       destinationNote: "",
       userBooks: [],
       destinationBooks: [],
-      editableDestinationNote: false,
+      editableDestinationNote: "",
       newDestinationNoteBody: ""
     }
     this.handleDestinationNoteChange = this.handleDestinationNoteChange.bind(this);
@@ -101,14 +101,14 @@ export default class DestinationDetails extends Component {
         }
         this.setState({ destinationNote: newUserDestinationNote });
         this.setState({ newDestinationNoteBody: "" });
-        this.setState({ editableDestinationNote: false });
+        this.setState({ editableDestinationNote: "" });
         Materialize.toast('Note added!', 2000)
       });
     }
   }
 
   handleDestinationNoteEditClick(obj) {
-    this.setState({ editableDestinationNote: true });
+    this.setState({ editableDestinationNote: obj });
     this.setState({ newDestinationNoteBody: this.state.destinationNote.note });
   }
 

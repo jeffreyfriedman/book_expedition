@@ -31,7 +31,7 @@ describe('App', () => {
         userBooks: [],
         selectedDestination: "",
         selectedDestinationBooks: [],
-        editableDestinationNote: false,
+        editableDestinationNote: "",
         newDestinationNoteBody: "",
         newCountry: "",
         newCity: "",

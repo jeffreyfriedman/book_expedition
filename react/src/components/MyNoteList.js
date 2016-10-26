@@ -14,6 +14,7 @@ const MyNoteList = props => {
     }).map(destinationNote => {
       let destinationNoteKey = `destinationNote_${destinationNote.id}`;
       let deleteDestinationNoteKey = `deleteDestinationNote_${destinationNote.id}`;
+      let editDestinationNoteKey = `editDestinationNote_${destinationNote.id}`;
       let newDestinationNoteKey= `newDestinationNote_${destinationNote.id}`;
       let onDeleteClick = () => props.handleDestinationNoteDeleteClick(destinationNote);
       let onEditClick = () => props.handleDestinationNoteEditClick(destinationNote);
@@ -23,7 +24,7 @@ const MyNoteList = props => {
         return destination.id === destinationNote.destination_id;
       });
 
-      if (props.editableDestinationNote === false) {
+      if (props.editableDestinationNote.id !== destinationNote.id) {
         conditionalNoteControl =
         <div className="card blue-grey darken-1" key={destinationNoteKey}>
           <div className="card-content white-text">
@@ -32,6 +33,7 @@ const MyNoteList = props => {
           </div>
           <div className="card-action">
             <NoteEditButton
+              key={editDestinationNoteKey}
               onClick={onEditClick}
             />
             <NoteDeleteButton

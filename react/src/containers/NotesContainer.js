@@ -7,7 +7,7 @@ export default class NotesContainer extends Component {
     this.state = {
       userDestinations: [],
       userDestinationNotes: [],
-      editableDestinationNote: false,
+      editableDestinationNote: "",
       destinationNote: "",
       newDestinationNoteBody: ""
     }
@@ -39,7 +39,7 @@ export default class NotesContainer extends Component {
       });
 
       $.ajax({
-        url: '/api/v1/userdestinations/' + obj.id,
+        url: '/api/v1/userdestinations/' + obj.destination_id,
         contentType: 'application/json',
         method: 'PATCH',
         data: notePost
@@ -53,7 +53,7 @@ export default class NotesContainer extends Component {
         }, ...this.state.userDestinationNotes]
         this.setState({ userDestinationNotes: newUserDestinationNotes });
         this.setState({ newDestinationNoteBody: "" });
-        this.setState({ editableDestinationNote: false });
+        this.setState({ editableDestinationNote: "" });
         this.setState({ destinationNote: "" });
         Materialize.toast('Note added!', 2000);
       })
@@ -61,7 +61,7 @@ export default class NotesContainer extends Component {
   }
 
   handleDestinationNoteEditClick(obj) {
-    this.setState({ editableDestinationNote: true });
+    this.setState({ editableDestinationNote: obj });
     this.setState({ newDestinationNoteBody: obj.note });
   }
 
