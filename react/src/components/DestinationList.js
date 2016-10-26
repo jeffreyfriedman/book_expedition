@@ -40,7 +40,7 @@ const DestinationList = props => {
         handleFormSubmit={props.handleFormSubmit}
         />
       <div>
-        <h3 className>My Destinations</h3>
+        <h3>My Destinations</h3>
         <div className="row">
           {destinations}
         </div>

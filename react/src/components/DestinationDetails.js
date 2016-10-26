@@ -21,11 +21,34 @@ export default class DestinationDetails extends Component {
     this.handleDestinationNoteDeleteClick = this.handleDestinationNoteDeleteClick.bind(this);
     this.handleDestinationNoteEditClick = this.handleDestinationNoteEditClick.bind(this);
     this.handleBookAddClick = this.handleBookAddClick.bind(this);
+    this.handleBookDeleteClick = this.handleBookDeleteClick.bind(this);
+  }
+
+  handleBookDeleteClick(obj) {
+    let newBooks = this.state.userBooks.filter(book => {
+      return book.id !== obj.id;
+    });
+    this.setState({ userBooks: newBooks });
+
+    let bookToDelete = this.state.userBooks.filter(book => {
+      return book.id === obj.id;
+    });
+    let bookDeleteUrl = `/api/v1/userbooks/${bookToDelete[0].id}`;
+
+    let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+      jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+    });
+
+    $.ajax({
+      url: bookDeleteUrl,
+      contentType: 'application/json',
+      method: 'DELETE'
+    });
   }
 
   handleBookAddClick(obj) {
-    // event.preventDefault();
-
     let newUserBook = JSON.stringify({ book_id: obj.id });
     let csrfToken = $("meta[name='csrf-token']").attr('content');
 
@@ -134,7 +157,10 @@ export default class DestinationDetails extends Component {
     let conditionalNoteControl;
 
     // if valid text in note, show edit controls, otherwise show new note controls
-    if ((this.state.destinationNote !== undefined) && (this.state.destinationNote.note !== "")) {
+    if (
+      (this.state.destinationNote !== undefined) &&
+      (this.state.destinationNote.note !== "") &&
+      (this.state.destinationNote !== "")) {
 
       conditionalNoteControl =
         <EditDestinationNoteControl
@@ -148,6 +174,7 @@ export default class DestinationDetails extends Component {
           handleDestinationNoteEditClick={this.handleDestinationNoteEditClick}
         />
     } else {
+
       conditionalNoteControl =
         <NewDestinationNote
           newDestinationNoteBody={this.state.newDestinationNoteBody}

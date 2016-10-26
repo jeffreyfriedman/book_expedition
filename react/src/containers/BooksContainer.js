@@ -11,7 +11,6 @@ export default class BooksContainer extends Component {
   }
 
   handleBookDeleteClick(obj) {
-
     let newBooks = this.state.userBooks.filter(book => {
       return book.id !== obj.id;
     });
