@@ -10,16 +10,35 @@ const MyBookList = props => {
       let deleteKey = `delete_${book.id}`;
       let onDeleteClick = () => props.handleBookDeleteClick(book);
 
+      let authors = book.authors;
+      let maxLength = 25;
+
+      if (book.authors.length > maxLength) {
+        authors = authors.substr(0,maxLength-3) + "…";
+      }
+
       return(
-        <div key={bookKey} className="col-sm-2">
-          <figure>
-            <img src={book.image} />
-            <figcaption>{book.title}</figcaption>
-              <BookDeleteButton
-                key={deleteKey}
-                onClick={onDeleteClick}
-              />
-          </figure>
+        <div className="col s6 m4" key={bookKey}>
+          <div className="card small horizontal hoverable">
+            <div className="card-image">
+              <img src={book.image} />
+              <span className="card-title indigo lighten-4">{book.category}</span>
+            </div>
+            <div className="card-stacked">
+              <div className="card-content">
+                <p className="booktitle">Title: {book.title}</p>
+              </div>
+              <div className="card-action">
+                <p className="">Author(s): {authors}</p>
+                <span className="right-align">
+                  <BookDeleteButton
+                    key={deleteKey}
+                    onClick={onDeleteClick}
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       )
     })
@@ -27,7 +46,7 @@ const MyBookList = props => {
 
   return(
     <div>
-      <h3>My Book List</h3>
+      <h3>My Books</h3>
       <div className="row">
         {myBooks}
       </div>

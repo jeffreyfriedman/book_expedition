@@ -6,8 +6,15 @@ class Api::V1::DestinationsController < ApiController
   end
 
   def show
-    @destination = Destination.find(params[:id])
-    render json: { books: @destination.books }, status: :ok
+    destination = Destination.find(params[:id])
+    userNote = UserDestination.find_by(user: current_user, destination: destination)
+    user_books = current_user.books
+    render json: {
+      destination: destination,
+      books: destination.books,
+      userBooks: user_books,
+      note: userNote
+    }, status: :ok
   end
 
   def create

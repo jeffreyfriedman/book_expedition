@@ -11,7 +11,8 @@ class Api::V1::UsersController < ApiController
       user_info: user_info,
       destinations: user_destinations,
       destination_notes: user_destination_notes,
-      books: user_books
+      books: user_books,
+      book_notes: user_booknotes
     }, status: :ok
   end
 end

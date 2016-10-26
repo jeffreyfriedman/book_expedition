@@ -8,25 +8,28 @@ const EditDestinationNoteControl = props => {
   let onDeleteClick = () => props.handleDestinationNoteDeleteClick(props.destinationNote);
   let conditionalNoteControl;
 
-  if (props.editableDestinationNote === false) {
+  if (props.editableDestinationNote.id !== props.destinationNote.id) {
     conditionalNoteControl =
     <div>
-      {props.destinationNote.note}
-      <div>
-        <NoteEditButton
-          onClick={onEditClick}
-        />
-        <NoteDeleteButton
-          onClick={onDeleteClick}
-        />
+      <div className="card blue-grey darken-1">
+        <div className="card-content white-text">
+          <span className="card-title">Note</span>
+          <p>{props.destinationNote.note}</p>
+        </div>
+        <div className="card-action">
+          <NoteEditButton
+            onClick={onEditClick}
+          />
+          <NoteDeleteButton
+            onClick={onDeleteClick}
+          />
+        </div>
       </div>
-
     </div>
   } else {
     conditionalNoteControl =
     <NewDestinationNote
       newDestinationNoteBody={props.newDestinationNoteBody}
-      destination={props.selectedDestination}
       handleDestinationNoteChange={props.handleDestinationNoteChange}
       handleDestinationNoteSubmit={props.handleDestinationNoteSubmit}
     />
@@ -34,7 +37,7 @@ const EditDestinationNoteControl = props => {
 
   return(
     <div>
-      <h5>My Notes:</h5>
+      <h5>My Note:</h5>
       {conditionalNoteControl}
     </div>
   )
