@@ -77,11 +77,14 @@ export default class DestinationsContainer extends Component {
   }
 
   handleFormSubmit(event) {
+    debugger;
     event.preventDefault();
     let destinationPost;
 
     if (this.state.newCountry.length > 0) {
       destinationPost = JSON.stringify({ country: this.state.newCountry, city: this.state.newCity });
+      this.setState({ newCountry: "" });
+      this.setState({ newCity: "" });
       let csrfToken = $("meta[name='csrf-token']").attr('content');
 
       $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
@@ -104,8 +107,6 @@ export default class DestinationsContainer extends Component {
           }, ...this.state.userDestinationNotes];
           this.setState({ userDestinations: newDestinations });
           this.setState({ userDestinationNotes: newUserDestinationNotes });
-          this.setState({ newCountry: "" });
-          this.setState({ newCity: "" });
         }.bind(this)
       })
     }
@@ -137,7 +138,9 @@ export default class DestinationsContainer extends Component {
         userInfo: data.user_info,
         userDestinations: data.destinations,
         userDestinationNotes: data.destination_notes,
-        userBooks: data.books
+        userBooks: data.books,
+        newCountry: "",
+        newCity: ""
       });
     });
   }
@@ -153,9 +156,8 @@ export default class DestinationsContainer extends Component {
       switchElement =
       (<DestinationList
         userDestinations={this.state.userDestinations}
-        onClick={this.handleFormSubmit}
-        country={this.state.newCountry}
-        city={this.state.newCity}
+        newCountry={this.state.newCountry}
+        newCity={this.state.newCity}
         handleCityChange={this.handleCityChange}
         handleCountryChange={this.handleCountryChange}
         handleFormSubmit={this.handleFormSubmit}
