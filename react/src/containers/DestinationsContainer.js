@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import COUNTRIES from '../countries.js';
 import DestinationList from '../components/DestinationList'
 import DestinationDetails from '../components/DestinationDetails'
 import NewDestination from '../components/NewDestination'
@@ -20,7 +21,9 @@ export default class DestinationsContainer extends Component {
       newCountry: "",
       newCity: "",
       blurb: "",
-      image: ""
+      image: "",
+      validCountries: COUNTRIES,
+      countryError: ""
     }
     this.handleDestinationClick = this.handleDestinationClick.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -42,6 +45,11 @@ export default class DestinationsContainer extends Component {
   handleCountryChange(event) {
     let newCountry = event.target.value;
     this.setState({ newCountry: newCountry });
+    if (!(this.state.validCountries.includes(event.target.value))) {
+      this.setState({ countryError: "Please enter a valid country." });
+    } else {
+      this.setState({ countryError: "" });
+    }
   }
 
   handleCityChange(event) {
@@ -78,35 +86,42 @@ export default class DestinationsContainer extends Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
-    let destinationPost;
 
-    if (this.state.newCountry.length > 0) {
-      destinationPost = JSON.stringify({ country: this.state.newCountry, city: this.state.newCity });
-      this.setState({ newCountry: "" });
-      this.setState({ newCity: "" });
-      let csrfToken = $("meta[name='csrf-token']").attr('content');
+    if (!(this.state.validCountries.includes(this.state.newCountry))) {
+      this.setState({ countryError: "Please enter a valid country." });
+    } else {
+      this.setState({ countryError: "" });
 
-      $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-        jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
-      });
+      let destinationPost;
 
-      $.ajax({
-        url: '/api/v1/destinations',
-        contentType: 'application/json',
-        method: 'POST',
-        data: destinationPost,
-        success: function(data) {
-          let newDestinations = [data.destination, ...this.state.userDestinations];
-          let newUserDestinationNotes = [{
-            id: data.userDestination.id,
-            user_id: data.userDestination.user_id,
-            destination_id: data.userDestination.destination_id,
-            note: ""
-          }, ...this.state.userDestinationNotes];
-          this.setState({ userDestinations: newDestinations });
-          this.setState({ userDestinationNotes: newUserDestinationNotes });
-        }.bind(this)
-      })
+      if (this.state.newCountry.length > 0) {
+        destinationPost = JSON.stringify({ country: this.state.newCountry, city: this.state.newCity });
+        this.setState({ newCountry: "" });
+        this.setState({ newCity: "" });
+        let csrfToken = $("meta[name='csrf-token']").attr('content');
+
+        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+          jqXHR.setRequestHeader('X-CSRF-Token', csrfToken);
+        });
+
+        $.ajax({
+          url: '/api/v1/destinations',
+          contentType: 'application/json',
+          method: 'POST',
+          data: destinationPost,
+          success: function(data) {
+            let newDestinations = [data.destination, ...this.state.userDestinations];
+            let newUserDestinationNotes = [{
+              id: data.userDestination.id,
+              user_id: data.userDestination.user_id,
+              destination_id: data.userDestination.destination_id,
+              note: ""
+            }, ...this.state.userDestinationNotes];
+            this.setState({ userDestinations: newDestinations });
+            this.setState({ userDestinationNotes: newUserDestinationNotes });
+          }.bind(this)
+        })
+      }
     }
   }
 
@@ -160,6 +175,7 @@ export default class DestinationsContainer extends Component {
         handleFormSubmit={this.handleFormSubmit}
         handleDestinationDeleteClick={this.handleDestinationDeleteClick}
         handleDestinationClick={this.handleDestinationClick}
+        countryError={this.state.countryError}
       />)
     } else {
       let onSubmit = () => this.handleDestinationNoteSubmit(this.props.params.destination)
