@@ -1,30 +1,67 @@
 ![Build Status](https://codeship.com/projects/045ac6c0-717c-0134-b396-66707d799ba6/status?branch=master)
 [![Code Climate](https://codeclimate.com/github/jeffreyfriedman/breakable_toy/badges/gpa.svg)](https://codeclimate.com/github/jeffreyfriedman/breakable_toy)
-[![Coverage Status](https://coveralls.io/repos/github/jeffreyfriedman/breakable_toy/badge.svg?branch=master)](https://coveralls.io/github/jeffreyfriedman/breakable_toy?branch=master)
 
-# README
+# Book Expedition
+Book Expedition serves the avid reader who is interested in travel.  Users can enter
+destinations to which they would like to travel, and the application will send out an
+API request to Flickr to retrieve an image representative of that destination to show
+to the user.  At the same time, the app will retrieve a list of books that are related
+to that destination from the Goolge Books API, and the user can add those books to
+his/her reading list.  Users can also take notes on their destinations to help plan
+their travel itineraries.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The project uses the following libraries and frameworks:
 
-Things you may want to cover:
+* React, React Router
+* D3
+* AJAX
+* Javascript
+* Ruby on Rails
+* Materialize CSS
 
-* Ruby version
+## Demo
+For a live demo of the site, please visit: [Book Expedition](http://bookexpedition.herokuapp.com/).
 
-* System dependencies
 
-* Configuration
+## Setup
+The app uses Ruby 2.3.1 and was developed on Ruby on Rails 5.0.0.1.  React is served up
+in Node.js using webpack 1.13.2.
 
-* Database creation
+To install, please run the following in your terminal:
 
-* Database initialization
+### Set up Rails
+```
+git clone https://github.com/jeffreyfriedman/book_expedition.git
+cd book_expedition
+bundle install
+rake db:create
+rake db:migrate
+```
 
-* How to run the test suite
+### Set up Webpack
+`npm install`
 
-* Services (job queues, cache servers, search engines, etc.)
+To retrieve images from Flickr, you will need to sign up for a Flickr API key.
+Once you have your Flickr API key, create a .env file in the root directory,
+and add your Flickr API key with the following format:
 
-* Deployment instructions
+```
+FLICKR_KEY=<YOUR_API_KEY>
+```
 
-* ...
-# Breakable Toy
-Your app description, here.
+## Running the application
+To run Book Expedition, please run the following commands in your terminal from the
+`book_expedition` directory:
+
+```
+rails s
+npm start
+```
+
+Now open your browser and enter `localhost:3000` in your address bar.
+
+## Testing
+To run the test suite, please enter the following command from the `book_expedition`
+root directory:
+
+`rspec`
