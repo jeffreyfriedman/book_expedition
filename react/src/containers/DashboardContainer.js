@@ -24,15 +24,114 @@ export default class DashboardContainer extends Component {
         userDestinationNotes: data.destination_notes,
         userBooks: data.books
       });
+
+      let fakeData = [
+        {id: "user", value: ""},
+        {id: "user.destinations", value: ""},
+        {id: "user.destinations.norway", value: ""},
+        {id: "user.destinations.norway.book1", value: "3938"},
+        {id: "user.destinations.norway.book2", value: "3938"},
+        {id: "user.destinations.norway.book3", value: "3938"},
+        {id: "user.destinations.china", value: ""},
+        {id: "user.destinations.china.book1", value: "3938"},
+        {id: "user.destinations.china.book2", value: "3938"},
+        {id: "user.destinations.china.book3", value: "3938"},
+        {id: "user.destinations.france", value: ""},
+        {id: "user.destinations.france.book1", value: "3938"},
+        {id: "user.destinations.france.book2", value: "3938"},
+        {id: "user.destinations.france.book3", value: "3938"},
+        {id: "user.destinations.germany", value: ""},
+        {id: "user.destinations.germany.book1", value: "3938"},
+        {id: "user.destinations.germany.book2", value: "3938"},
+        {id: "user.destinations.germany.book3", value: "3938"},
+        {id: "user.destinations.sweden", value: ""},
+        {id: "user.destinations.sweden.book1", value: "3938"},
+        {id: "user.destinations.sweden.book2", value: "3938"},
+        {id: "user.destinations.sweden.book3", value: "3938"},
+        {id: "user.destinations.japan", value: ""},
+        {id: "user.destinations.japan.book1", value: "3938"},
+        {id: "user.destinations.japan.book2", value: "3938"},
+        {id: "user.destinations.japan.book3", value: "3938"},
+        {id: "user.destinations.thailand", value: ""},
+        {id: "user.destinations.thailand.book1", value: "3938"},
+        {id: "user.destinations.thailand.book2", value: "3938"},
+        {id: "user.destinations.thailand.book3", value: "3938"},
+        {id: "user.destinations.antarctica", value: ""},
+        {id: "user.destinations.antarctica.book1", value: "3938"},
+        {id: "user.destinations.antarctica.book2", value: "3938"},
+        {id: "user.destinations.antarctica.book3", value: "3938"}
+      ];
+      // debugger;
+      this.drawRadialDendrogram(data.datamap);
     });
   }
+
+  drawRadialDendrogram(data) {
+    let project = (x, y) => {
+      let angle = (x - 90) / 180 * Math.PI, radius = y;
+      return [radius * Math.cos(angle), radius * Math.sin(angle)];
+    }
+
+    let svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + (height / 2 + 20) + ")");
+
+    let stratify = d3.stratify()
+        .parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf(".")); });
+
+    let cluster = d3.cluster()
+        .size([360, width / 2 - 120]);
+
+    let root = stratify(data)
+        .sort(function(a, b) { return a.height - b.height || a.id.localeCompare(b.id); });
+
+    cluster(root);
+
+    let link = g.selectAll(".link")
+        .data(root.descendants().slice(1))
+      .enter().append("path")
+        .attr("class", "link")
+        .attr("d", function(d) {
+          return("M" + project(d.x, d.y)
+              + "C" + project(d.x, (d.y + d.parent.y) / 2)
+              + " " + project(d.parent.x, (d.y + d.parent.y) / 2)
+              + " " + project(d.parent.x, d.parent.y));
+        });
+
+    let node = g.selectAll(".node")
+        .data(root.descendants())
+      .enter().append("g")
+        .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
+        .attr("transform", function(d) { return "translate(" + project(d.x, d.y) + ")"; });
+
+    node.append("circle")
+        .attr("r", 2.5);
+
+    node.append("text")
+        .attr("dy", "0.31em")
+        .attr("x", function(d) { return d.x < 180 === !d.children ? 6 : -6; })
+        .style("text-anchor", function(d) { return d.x < 180 === !d.children ? "start" : "end"; })
+        .attr("transform", function(d) { return "rotate(" + (d.x < 180 ? d.x - 90 : d.x + 90) + ")"; })
+        .text(function(d) { return d.id.substring(d.id.lastIndexOf(".") + 1); });
+  }
+
+
 
   componentDidMount() {
     this.getDashboard();
   }
 
   render() {
-    let userName, recentDestination, recentBook, recentNote, destination = "";
+    let userName,
+        recentDestination,
+        recentBook,
+        recentNote,
+        tentativeRecentNote,
+        destinationMatch,
+        destination = "",
+        city = "";
+
     if (this.state.userInfo.first_name != undefined) {
       userName = this.state.userInfo.first_name;
     }
@@ -42,54 +141,81 @@ export default class DashboardContainer extends Component {
     if (this.state.userBooks[0] != undefined) {
       recentBook = this.state.userBooks[0].title;
     }
+
+    for (let note of this.state.userDestinationNotes) {
+      if (note.note !== "") {
+        tentativeRecentNote = note;
+        break;
+      }
+    }
+
     if (this.state.userDestinationNotes[0] != undefined) {
-      recentNote = this.state.userDestinationNotes[0];
-      if (recentNote !== undefined) {
-        destination = this.state.userDestinations.filter(destination => {
+      // recentNote = this.state.userDestinationNotes[0];
+      if ((recentNote !== "") && (recentNote !== undefined)) {
+        destinationMatch = this.state.userDestinations.filter(destination => {
           return destination.id === recentNote.destination_id;
         });
+        recentNote = tentativeRecentNote.note;
       }
-
     }
+
+    if (destinationMatch !== undefined) {
+      if (destinationMatch[0].city !== "") {
+        city = `${destinationMatch[0].city}, `;
+      }
+      destination = `${city}${destinationMatch[0].country}:`;
+    }
+
     return(
-      <div>
+      <div className="container">
         <h1 className="center-align">Welcome, {userName}</h1>
 
           <div className="row">
-            <div className="col s4 m4">
+            <div className="col s4 m4 center-align">
+              <h5>Recent Activity</h5>
+              <div className="divider"></div>
               <div className="card blue-grey darken-1">
                 <div className="card-content white-text">
-                  <span className="card-title">Recently Added Destination</span>
+                  <span className="card-title">Recent Destination</span>
                   <p>{recentDestination}</p>
                 </div>
                 <div className="card-action">
                   <Link to="/destinations">My Destinations</Link>
                 </div>
               </div>
-            </div>
-              <div className="col s4 m4">
+
+
               <div className="card blue-grey darken-1">
                 <div className="card-content white-text">
-                  <span className="card-title">Recently Added Book</span>
+                  <span className="card-title">Recent Book</span>
                   <p>{recentBook}</p>
                 </div>
                 <div className="card-action">
                   <Link to="/books">My Books</Link>
                 </div>
               </div>
-            </div>
-              <div className="col s4 m4">
+
+
               <div className="card blue-grey darken-1">
                 <div className="card-content white-text">
-                  <span className="card-title">Recently Added Note</span>
-                  <p>{destination[0].city} {destination[0].country}: {recentNote.note}</p>
+                  <span className="card-title">Recent Note</span>
+                  <p>{destination}</p>
+                  <p>{recentNote}</p>
                 </div>
                 <div className="card-action">
                   <Link to="/notes">My Notes</Link>
                 </div>
               </div>
             </div>
+            <div className="col s8 center-align">
+                <h5>My Data Map</h5>
+                <div className="divider"></div>
+                  <div className="scaling-svg-container">
+                    <svg className="radial_dendrogram scaling-svg" width="600" height="562"></svg>
+                </div>
+            </div>
           </div>
+
       </div>
     )
   }
