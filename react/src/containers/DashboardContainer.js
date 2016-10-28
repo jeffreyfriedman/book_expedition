@@ -25,43 +25,6 @@ export default class DashboardContainer extends Component {
         userBooks: data.books
       });
 
-      let fakeData = [
-        {id: "user", value: ""},
-        {id: "user.destinations", value: ""},
-        {id: "user.destinations.norway", value: ""},
-        {id: "user.destinations.norway.book1", value: "3938"},
-        {id: "user.destinations.norway.book2", value: "3938"},
-        {id: "user.destinations.norway.book3", value: "3938"},
-        {id: "user.destinations.china", value: ""},
-        {id: "user.destinations.china.book1", value: "3938"},
-        {id: "user.destinations.china.book2", value: "3938"},
-        {id: "user.destinations.china.book3", value: "3938"},
-        {id: "user.destinations.france", value: ""},
-        {id: "user.destinations.france.book1", value: "3938"},
-        {id: "user.destinations.france.book2", value: "3938"},
-        {id: "user.destinations.france.book3", value: "3938"},
-        {id: "user.destinations.germany", value: ""},
-        {id: "user.destinations.germany.book1", value: "3938"},
-        {id: "user.destinations.germany.book2", value: "3938"},
-        {id: "user.destinations.germany.book3", value: "3938"},
-        {id: "user.destinations.sweden", value: ""},
-        {id: "user.destinations.sweden.book1", value: "3938"},
-        {id: "user.destinations.sweden.book2", value: "3938"},
-        {id: "user.destinations.sweden.book3", value: "3938"},
-        {id: "user.destinations.japan", value: ""},
-        {id: "user.destinations.japan.book1", value: "3938"},
-        {id: "user.destinations.japan.book2", value: "3938"},
-        {id: "user.destinations.japan.book3", value: "3938"},
-        {id: "user.destinations.thailand", value: ""},
-        {id: "user.destinations.thailand.book1", value: "3938"},
-        {id: "user.destinations.thailand.book2", value: "3938"},
-        {id: "user.destinations.thailand.book3", value: "3938"},
-        {id: "user.destinations.antarctica", value: ""},
-        {id: "user.destinations.antarctica.book1", value: "3938"},
-        {id: "user.destinations.antarctica.book2", value: "3938"},
-        {id: "user.destinations.antarctica.book3", value: "3938"}
-      ];
-      // debugger;
       this.drawRadialDendrogram(data.datamap);
     });
   }
@@ -150,10 +113,9 @@ export default class DashboardContainer extends Component {
     }
 
     if (this.state.userDestinationNotes[0] != undefined) {
-      // recentNote = this.state.userDestinationNotes[0];
-      if ((recentNote !== "") && (recentNote !== undefined)) {
+      if ((tentativeRecentNote !== "") && (tentativeRecentNote !== undefined)) {
         destinationMatch = this.state.userDestinations.filter(destination => {
-          return destination.id === recentNote.destination_id;
+          return destination.id === tentativeRecentNote.destination_id;
         });
         recentNote = tentativeRecentNote.note;
       }
