@@ -10,3 +10,6 @@ exclude_paths:
 - "react/test"
 - "app/assets/stylesheets"
 - "app/assets/javascripts/cable.js"
+- "app/assets/javascripts/bundle.js"
+- "db/schema.rb"
+- "spec"
