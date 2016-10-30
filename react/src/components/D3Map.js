@@ -41,6 +41,7 @@ export default class D3Map extends Component {
 
       let width = 960,
       height = 547;
+      // let color = d3.scale.category10();
 
       let projection = d3.geoPatterson()
           .scale(153)
@@ -69,14 +70,6 @@ export default class D3Map extends Component {
           .attr("class", "land")
           .attr("d", path);
 
-      // render borders
-      svg.insert("path", ".graticule")
-          .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
-            return a !== b;
-          }))
-          .attr("class", "boundary")
-          .attr("d", path);
-
       // e.g. 756 = Switzerland, 392 = Japan,
       // 578 = Norway, 124 = Canada, 554 = New Zealand,
       // 724 = Spain, 246 = Finland
@@ -84,12 +77,21 @@ export default class D3Map extends Component {
         return parseInt(countryCodes[destination.country]);
       })
 
-      // highlight the destinations added by the user
+      // highlight countries that are in the user's destination list
+      let countries = topojson.feature(world, world.objects.countries).features;
+      svg.selectAll(".country")
+              .data(countries)
+              .enter().insert("path", ".graticule")
+              .attr("class", "country")
+              .attr("d", path)
+              .style("fill", function(d) {return highlighted.includes(d.id) ? "orange" : "#222"; });
+
+      // render border lines
       svg.insert("path", ".graticule")
           .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
-            return highlighted.includes(a.id);
+            return a !== b;
           }))
-          .attr("class", "highlighted")
+          .attr("class", "boundary")
           .attr("d", path);
 
       d3.select(self.frameElement).style("height", height + "px");
