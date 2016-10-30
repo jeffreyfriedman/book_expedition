@@ -99,8 +99,6 @@ export default class D3Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    debugger;
-
     // to render map when visiting My Destinations
     let previousState = this.state.userDestinations;
     this.setState({ userDestinations: nextProps.userDestinations }, function() {
