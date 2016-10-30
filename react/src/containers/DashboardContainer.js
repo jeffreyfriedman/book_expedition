@@ -173,7 +173,7 @@ export default class DashboardContainer extends Component {
                 <h5>My Data Map</h5>
                 <div className="divider"></div>
                   <div className="scaling-svg-container">
-                    <svg className="radial_dendrogram scaling-svg" width="600" height="562"></svg>
+                    <svg className="radial_dendrogram" width="600" height="562"></svg>
                 </div>
             </div>
           </div>

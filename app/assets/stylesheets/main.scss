@@ -2,6 +2,11 @@
   background-color: red
 }
 
+.card-image {
+  height: 100%;
+  background-color: black;
+}
+
 .devise_menu {
   padding-top: 10px;
 }
@@ -33,18 +38,27 @@
   // margin-top: -4rem;
 }
 
-.scaling-svg-container {
- position: relative;
- height: 0;
- width: 100%;
- padding: 0;
- padding-bottom: 100%;
- /* override this inline for aspect ratio other than square */
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
 }
-.scaling-svg {
- position: absolute;
- height: 100%;
- width: 100%;
- left: 0;
- top: 0;
+
+.land {
+  fill: #222;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.highlighted {
+  fill: orange;
+}
+
+form {
+  margin-bottom: 0px;
 }

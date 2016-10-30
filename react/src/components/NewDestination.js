@@ -3,16 +3,16 @@ import React from 'react';
 const NewDestination = props => {
 
   return(
-    <div className="row">
+    <div className="row center-align">
       <h4>Enter New Destination</h4>
-      <form className="col s8">
-        <div className="row">
+      <form className="col s8 center-align">
+        <div className="row center-align">
           <div className="input-field col s4">
             <i className="material-icons prefix align-left">room</i>
             <input
               onChange={props.handleCountryChange}
               value={props.country}
-              placeholder="Enter Country"
+              placeholder="Enter Country (required)"
               id="country"
               type="text"
               className="validate autocomplete" />
