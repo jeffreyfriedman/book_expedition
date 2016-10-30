@@ -3,7 +3,7 @@ import React from 'react';
 const NewDestination = props => {
   return(
     <div className="row center-align">
-      <h4>Enter New Destination</h4>
+      <h5>Enter New Destination</h5>
       <form className="col s8 center-align" onSubmit={props.handleFormSubmit}>
         <div className="row center-align">
           <div className="input-field col s4">
