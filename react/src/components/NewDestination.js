@@ -1,7 +1,6 @@
 import React from 'react';
 
 const NewDestination = props => {
-
   return(
     <div className="row center-align">
       <h4>Enter New Destination</h4>
@@ -21,7 +20,7 @@ const NewDestination = props => {
           <div className="input-field col s4">
             <i className="material-icons prefix">business</i>
             <input
-              onChange={props.handleCountryChange}
+              onChange={props.handleCityChange}
               value={props.city}
               placeholder="Enter City"
               id="city"

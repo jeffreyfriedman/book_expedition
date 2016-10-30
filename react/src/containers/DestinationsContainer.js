@@ -44,6 +44,7 @@ export default class DestinationsContainer extends Component {
 
   handleCountryChange(event) {
     let newCountry = event.target.value;
+
     let capitalizedCountry = newCountry.replace(/\b\w/g, l => l.toUpperCase());
     this.setState({ newCountry: capitalizedCountry });
     // let capitalizedCountry = newCountry.replace(/\b\w/g, l => l.toUpperCase());
