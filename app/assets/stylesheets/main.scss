@@ -57,18 +57,29 @@
 
 
 .splash-container {
-  top: 8em;
+  top: 6em;
   left: 13em;
   z-index: 2;
   position: fixed;
-  background-color: white;
-  opacity: 0.6;
+  // background-color: black;
+  // opacity: 0.6;
+  background: rgba(0, 0, 0, 0.5); 
   height: 30em;
   width: 43em;
   margin-top: 4em;
+  color: white;
 }
 
 .splash-image {
   margin-top: 0px;
   z-index: -1;
+}
+
+.site-title {
+  margin-bottom: 0px;
+}
+
+#demo-account {
+  margin-bottom: 0px;
+  opacity: 1;
 }

@@ -44,7 +44,8 @@ const DestinationList = props => {
         />
       <div>
         <div>
-          <h3>My Destinations</h3>
+          <h5>My Destinations (highlighted in orange)</h5>
+          <h6><em>Detailed list below map</em></h6>
           <D3Map
             userDestinations={props.userDestinations}
           />
