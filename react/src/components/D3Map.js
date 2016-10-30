@@ -23,6 +23,8 @@ export default class D3Map extends Component {
   }
 
   d3map() {
+    // remove any previously rendered version of the map
+    d3.select(".worldmap").remove()
 
     // swap country name and code, e.g. "840": "United States" =>
     // "United States": "840" to look up code by country name for highlighted array
@@ -99,13 +101,12 @@ export default class D3Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     // to render map when visiting My Destinations
     let previousState = this.state.userDestinations;
     this.setState({ userDestinations: nextProps.userDestinations }, function() {
       // only render new map if new destination has been added
       if (this.state.userDestinations !== previousState) {
-        // remove any previous renderings of the map
-        d3.select(".d3map svg").remove();
         // then render new map
         this.getMapData()
       }
@@ -113,9 +114,10 @@ export default class D3Map extends Component {
   }
 
   componentDidMount() {
+
     // to render map when returning from destination details
     if (this.state.userDestinations.length === 0) {
-      d3.select(".d3map svg").remove();
+
       this.setState({ userDestinations: this.props.userDestinations });
       this.getMapData();
     }
