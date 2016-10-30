@@ -26,6 +26,13 @@ class Api::V1::UsersController < ApiController
     username = current_user.username
     datamap_array = [JSON.parse('{"id": "'"#{username}"'", "value":""}')]
 
+    current_user.destinations.each do |destination|
+      destination_value = "#{username}.#{destination.country}"
+      datamap_array << JSON.parse('{"id": "'"#{destination_value}"'", "value":""}')
+    end
+
+    # re-add destinations in case user has added books related to that destination,
+    # but no longer has the destination itself in his/her list
     current_user.books.each do |book|
       destination_value = "#{username}.#{book.destinations[0].country}"
       datamap_array << JSON.parse('{"id": "'"#{destination_value}"'", "value":""}')

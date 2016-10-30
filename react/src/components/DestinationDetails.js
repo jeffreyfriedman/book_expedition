@@ -180,7 +180,12 @@ export default class DestinationDetails extends Component {
           handleDestinationNoteSubmit={this.handleDestinationNoteSubmit}
         />
     }
-
+    let destinationTitle;
+    if (this.state.destination.city !== undefined) {
+      destinationTitle = `${this.state.destination.city}, ${this.state.destination.country}`
+    } else {
+      destinationTitle = `${this.state.destination.country}`
+    }
     return(
       <div className="destinationDetails">
         <div className="row">
@@ -188,8 +193,7 @@ export default class DestinationDetails extends Component {
                 <img className="responsive-img" src={this.state.destination.image}/>
             </div>
             <div className="col s6">
-              <h3>{this.state.destination.city}</h3>
-              <h3>{this.state.destination.country}</h3>
+              <h3>{destinationTitle}</h3>
               {this.state.destination.short_description}
               {conditionalNoteControl}
             </div>

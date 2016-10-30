@@ -9,7 +9,8 @@ class Destination < ActiveRecord::Base
 
   def get_details(keywords)
     api_key = ENV['FLICKR_KEY']
-    formatted_keywords = "#{keywords[:country]}" + "#{keywords[:city].to_s}"
+    formatted_keywords = "#{keywords[:country]}%20" + "#{keywords[:city].to_s}"
+    binding.pry
     photos = HTTParty.get("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=#{api_key}&text=#{formatted_keywords}%20landmark&sort=relevance&license=1%2C2%2C3%2C4%2C5%2C6%2C7%2C8&safe_search=1&content_type=1&media=photos&extras=original_format&format=json&nojsoncallback=1")
 
     index = 0
@@ -53,7 +54,7 @@ class Destination < ActiveRecord::Base
             isbn = "" #if no ISBN
           end
           if !book["items"][0]["volumeInfo"]["imageLinks"].nil?
-            image = book["items"][0]["volumeInfo"]["imageLinks"]["smallThumbnail"]
+            image = book["items"][0]["volumeInfo"]["imageLinks"]["smallThumbnail"].gsub("http://", "https://")
           else
             image = ""
           end
