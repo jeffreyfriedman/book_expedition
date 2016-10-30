@@ -5,7 +5,7 @@ const NewDestination = props => {
   return(
     <div className="row center-align">
       <h4>Enter New Destination</h4>
-      <form className="col s8 center-align">
+      <form className="col s8 center-align" onSubmit={props.handleFormSubmit}>
         <div className="row center-align">
           <div className="input-field col s4">
             <i className="material-icons prefix align-left">room</i>
