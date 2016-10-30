@@ -170,7 +170,7 @@ export default class DashboardContainer extends Component {
               </div>
             </div>
             <div className="col s8 center-align">
-                <h5>My Data Map</h5>
+                <h5 className="tooltipped" data-delay="50" data-tooltip="I am tooltip">My Data Map</h5>
                 <div className="divider"></div>
                   <div className="scaling-svg-container">
                     <svg className="radial_dendrogram" width="600" height="562"></svg>
