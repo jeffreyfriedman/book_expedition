@@ -1,6 +1,7 @@
 import React from 'react';
 import DestinationTitle from './DestinationTitle'
 import NewDestination from './NewDestination'
+import D3Map from './D3Map'
 
 const DestinationList = props => {
 
@@ -42,7 +43,12 @@ const DestinationList = props => {
         countryError={props.countryError}
         />
       <div>
-        <h3>My Destinations</h3>
+        <div>
+          <h3>My Destinations</h3>
+          <D3Map
+            userDestinations={props.userDestinations}
+          />
+        </div>
         <div className="row">
           {destinations}
         </div>

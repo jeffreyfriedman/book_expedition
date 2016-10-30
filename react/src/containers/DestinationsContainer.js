@@ -44,17 +44,22 @@ export default class DestinationsContainer extends Component {
 
   handleCountryChange(event) {
     let newCountry = event.target.value;
-    this.setState({ newCountry: newCountry });
-    if (!(this.state.validCountries.includes(event.target.value))) {
-      this.setState({ countryError: "Please enter a valid country." });
-    } else {
-      this.setState({ countryError: "" });
-    }
+
+    let capitalizedCountry = newCountry.replace(/\b\w/g, l => l.toUpperCase());
+    this.setState({ newCountry: capitalizedCountry });
+    // let capitalizedCountry = newCountry.replace(/\b\w/g, l => l.toUpperCase());
+
+    // if (!this.state.validCountries.includes(capitalizedCountry)) {
+    //   this.setState({ countryError: "Please enter a valid country." });
+    // } else {
+    //   this.setState({ countryError: "" });
+    // }
   }
 
   handleCityChange(event) {
     let newCity = event.target.value;
-    this.setState({ newCity: newCity });
+    let capitalizedCity = newCity.replace(/\b\w/g, l => l.toUpperCase());
+    this.setState({ newCity: capitalizedCity });
   }
 
   handleDestinationDeleteClick(id) {
@@ -87,7 +92,14 @@ export default class DestinationsContainer extends Component {
   handleFormSubmit(event) {
     event.preventDefault();
 
-    if (!(this.state.validCountries.includes(this.state.newCountry))) {
+    // let matches = this.state.validCountries.filter(validCountry => {
+    //   //get rid of all falsely objects
+    //   if(validCountry) {
+    //     return (validCountry.substring(0, this.state.newCountry.length) === this.state.newCountry);
+    //   }
+    // });
+    // debugger;
+    if (!this.state.validCountries.includes(this.state.newCountry)) {
       this.setState({ countryError: "Please enter a valid country." });
     } else {
       this.setState({ countryError: "" });
