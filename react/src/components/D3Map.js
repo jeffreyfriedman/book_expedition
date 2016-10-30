@@ -99,6 +99,8 @@ export default class D3Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    debugger;
+
     // to render map when visiting My Destinations
     let previousState = this.state.userDestinations;
     this.setState({ userDestinations: nextProps.userDestinations }, function() {
@@ -115,6 +117,7 @@ export default class D3Map extends Component {
   componentDidMount() {
     // to render map when returning from destination details
     if (this.state.userDestinations.length === 0) {
+      d3.select(".d3map svg").remove();
       this.setState({ userDestinations: this.props.userDestinations });
       this.getMapData();
     }
