@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import COUNTRIES from '../countries.js';
+import COUNTRIES from '../data/countries.js';
 import DestinationList from '../components/DestinationList'
 import DestinationDetails from '../components/DestinationDetails'
 import NewDestination from '../components/NewDestination'
