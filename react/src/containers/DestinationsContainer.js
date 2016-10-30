@@ -46,14 +46,8 @@ export default class DestinationsContainer extends Component {
     let newCountry = event.target.value;
 
     let capitalizedCountry = newCountry.replace(/\b\w/g, l => l.toUpperCase());
+    capitalizedCountry = capitalizedCountry.replace(/And/, "and");
     this.setState({ newCountry: capitalizedCountry });
-    // let capitalizedCountry = newCountry.replace(/\b\w/g, l => l.toUpperCase());
-
-    // if (!this.state.validCountries.includes(capitalizedCountry)) {
-    //   this.setState({ countryError: "Please enter a valid country." });
-    // } else {
-    //   this.setState({ countryError: "" });
-    // }
   }
 
   handleCityChange(event) {
@@ -92,13 +86,6 @@ export default class DestinationsContainer extends Component {
   handleFormSubmit(event) {
     event.preventDefault();
 
-    // let matches = this.state.validCountries.filter(validCountry => {
-    //   //get rid of all falsely objects
-    //   if(validCountry) {
-    //     return (validCountry.substring(0, this.state.newCountry.length) === this.state.newCountry);
-    //   }
-    // });
-    // debugger;
     if (!this.state.validCountries.includes(this.state.newCountry)) {
       this.setState({ countryError: "Please enter a valid country." });
     } else {
