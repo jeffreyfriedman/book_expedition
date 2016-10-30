@@ -7,10 +7,12 @@ const DestinationTitle = props => {
   return(
     <div className="col s6 m4">
       <div className="card medium hoverable">
-        <div className="card-image">
-          <img src={props.image} />
-          <span className="card-title indigo lighten-4">{props.city} {props.country}</span>
-        </div>
+        <Link to={detailPath}>
+          <div className="card-image">
+            <img src={props.image} />
+            <span className="card-title indigo lighten-4">{props.city} {props.country}</span>
+          </div>
+        </Link>
         <div className="card-content">
 
         </div>
