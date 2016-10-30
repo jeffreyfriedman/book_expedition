@@ -128,6 +128,13 @@ export default class DashboardContainer extends Component {
       destination = `${city}${destinationMatch[0].country}:`;
     }
 
+    // initialize tooltip when hovering over information icon
+    $(document).ready(function(){
+      $('.tooltipped').tooltip({delay: 50});
+    });
+
+    let tooltip = ""
+
     return(
       <div className="container">
         <h1 className="center-align">Welcome, {userName}</h1>
@@ -170,7 +177,11 @@ export default class DashboardContainer extends Component {
               </div>
             </div>
             <div className="col s8 center-align">
-                <h5 className="tooltipped" data-delay="50" data-tooltip="I am tooltip">My Data Map</h5>
+                <h5>My Data Map &nbsp;
+                  <i className="tiny material-icons tooltipped"
+                    data-position="bottom" data-delay="50"
+                    data-tooltip="Data visualization of the relationship between you, your destinations, and your books">info_outline</i>
+                </h5>
                 <div className="divider"></div>
                   <div className="scaling-svg-container">
                     <svg className="radial_dendrogram" width="600" height="562"></svg>
