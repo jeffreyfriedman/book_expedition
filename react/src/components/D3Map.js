@@ -99,7 +99,7 @@ export default class D3Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    // to render map when visiting My Destinations
     let previousState = this.state.userDestinations;
     this.setState({ userDestinations: nextProps.userDestinations }, function() {
       // only render new map if new destination has been added
@@ -110,6 +110,14 @@ export default class D3Map extends Component {
         this.getMapData()
       }
     })
+  }
+
+  componentDidMount() {
+    // to render map when returning from destination details
+    if (this.state.userDestinations.length === 0) {
+      this.setState({ userDestinations: this.props.userDestinations });
+      this.getMapData();
+    }
   }
 
   render() {
