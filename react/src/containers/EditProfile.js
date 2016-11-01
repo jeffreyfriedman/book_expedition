@@ -38,7 +38,8 @@ export default class EditProfile extends Component {
     $.ajax({
       url: "/users",
       type: "PUT",
-      data: { user: {
+      data: {
+        user: {
                 username: this.state.username,
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
@@ -139,16 +140,17 @@ export default class EditProfile extends Component {
               <input type="submit" name="commit" value="Update" className="btn" disabled={this.state.updated} />
             </div>
           </form>
-          <h3>Cancel my account</h3>
-
-          <p>Unhappy?</p>
-            <form className="button_to" method="post" action="/users">
-              <input type="hidden" name="_method" value="delete" />
-              <input data-confirm="Are you sure?" className="btn" type="submit" value="Cancel my account" />
-              <input type="hidden" name="authenticity_token" value="QbN5wV+MXiwbjH84843fUUsabwygjHzeZ4skKncuYZf2Lj56h2xTDt//YQKmj7eyk+HC9vRDOHAtA4qj5RM6eA==" />
-            </form>
 
       </div>
     )
   }
 }
+
+// <h3>Cancel my account</h3>
+//
+// <p>Unhappy?</p>
+//   <form className="button_to" method="post" action="/users">
+//     <input type="hidden" name="_method" value="delete" />
+//     <input data-confirm="Are you sure?" className="btn" type="submit" value="Cancel my account" />
+//     <input type="hidden" name="authenticity_token" value="QbN5wV+MXiwbjH84843fUUsabwygjHzeZ4skKncuYZf2Lj56h2xTDt//YQKmj7eyk+HC9vRDOHAtA4qj5RM6eA==" />
+//   </form>
