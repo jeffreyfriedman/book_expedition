@@ -71,8 +71,6 @@ class Destination < ActiveRecord::Base
             amazon_res = ""
           end
 
-          binding.pry
-
           url = isbn != "" ? "https://www.amazon.com/dp/#{isbn}/?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}" : ""
           newbook = Book.new(title: title, authors: authors, description: description, category: keyword, isbn: isbn, image: image, url: url)
           if newbook.save
