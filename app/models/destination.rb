@@ -58,6 +58,19 @@ class Destination < ActiveRecord::Base
           else
             image = ""
           end
+          if isbn != ""
+            amazon_res = HTTParty.get("http://webservices.amazon.com/onca/xml?
+              Service=AWSECommerceService&
+              Operation=ItemLookup&
+              SubscriptionId=#{ENV['AWS_ACCESS_KEY_ID']}&
+              AssociateTag=#{ENV['AMAZON_ASSOCIATE_KEY']}&
+              ItemId=#{isbn}&
+              IdType=ISBN&
+              ResponseGroup=Images,ItemAttributes,Offers")
+          else
+            amazon_res = ""
+          end
+
           url = isbn != "" ? "https://www.amazon.com/dp/#{isbn}/?tag=#{ENV['AMAZON_ASSOCIATE_KEY']}" : ""
           newbook = Book.new(title: title, authors: authors, description: description, category: keyword, isbn: isbn, image: image, url: url)
           if newbook.save
