@@ -79,8 +79,6 @@ export default class DashboardContainer extends Component {
         .text(function(d) { return d.id.substring(d.id.lastIndexOf(".") + 1); });
   }
 
-
-
   componentDidMount() {
     this.getDashboard();
   }
@@ -188,7 +186,6 @@ export default class DashboardContainer extends Component {
                 </div>
             </div>
           </div>
-
       </div>
     )
   }

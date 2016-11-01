@@ -69,6 +69,7 @@ export default class DestinationsContainer extends Component {
 
     this.setState({ selectedDestination: "" });
     this.setState({ selectedDestinationBooks: [] });
+
     // Retrieve the current CSRF-TOKEN
     let csrfToken = $("meta[name='csrf-token']").attr('content');
 
