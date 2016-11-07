@@ -181,7 +181,8 @@ export default class DestinationDetails extends Component {
         />
     }
     let destinationTitle;
-    if (this.state.destination.city !== undefined) {
+    let city = this.state.destination.city;
+    if ((city !== undefined) && (city !== "") && (city !== null)) {
       destinationTitle = `${this.state.destination.city}, ${this.state.destination.country}`
     } else {
       destinationTitle = `${this.state.destination.country}`
