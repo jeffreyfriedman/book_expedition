@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { IndexLink } from 'react-router'
 import NavLink from './NavLink'
 
-export default class NewApp extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
